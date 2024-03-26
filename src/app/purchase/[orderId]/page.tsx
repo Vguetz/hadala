@@ -1,4 +1,3 @@
-import PaymentStatus from '@/components/PaymentStatus'
 import { buttonVariants } from '@/components/ui/button'
 import { getPayloadClient } from '@/get-payload'
 import { Loader2 } from 'lucide-react'
@@ -95,11 +94,28 @@ export const Page = async ({ params }: PageProps) => {
                 ))}
               </ul>
 
-              <PaymentStatus
-                isPaid={order.productoPagado}
-                orderEmail={order.user!}
-                orderId={order.id}
-              />
+              <div className='mt-16 grid grid-cols-2 gap-x-4 text-sm text-gray-600'>
+                <div>
+                  <p className='font-medium text-gray-900'>Enviar a</p>
+                  <p>{order.user}</p>
+                </div>
+
+                <div>
+                  <p className='font-medium text-gray-900'>
+                    Estado del pago:
+                    <p className='font-light'>
+                      {order.productoPagado
+                        ? 'Pago realizado'
+                        : 'Pago pendiente'}
+                      {order.productoPagado ? (
+                        <></>
+                      ) : (
+                        <Loader2 className='animate-spin text-muted-foreground' />
+                      )}
+                    </p>
+                  </p>
+                </div>
+              </div>
 
               <div className='mt-16 border-t border-gray-200 py-6 text-right'>
                 <Link

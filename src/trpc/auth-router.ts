@@ -1,10 +1,9 @@
+'use server'
 import { AuthCredentialsValidator } from '../lib/validators/account-credentials-validator'
 import { publicProcedure, router } from './trpc'
 import { getPayloadClient } from '../get-payload'
 import { TRPCError } from '@trpc/server'
-import { verify } from 'crypto'
 import { z } from 'zod'
-import { get } from 'http'
 
 export const authRouter = router({
   createPayloadUser: publicProcedure

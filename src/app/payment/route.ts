@@ -1,9 +1,6 @@
 import { getPayloadClient } from '../../get-payload'
 import { MercadoPagoConfig, Payment, Preference } from 'mercadopago'
-import { redirect } from 'next/dist/server/api-utils'
 import { NextRequest } from 'next/server'
-import { useRouter } from 'next/navigation'
-import { router } from '@/trpc/trpc'
 
 const client = new MercadoPagoConfig({
   accessToken: process.env.NEXT_PUBLIC_MERCADO_ATK!
@@ -47,6 +44,7 @@ export async function POST(request: NextRequest) {
       dinero: pago.amount!
     }
   })
+  console.log(result)
 
   return Response.json({ success: true })
 }

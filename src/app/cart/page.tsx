@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input'
 import { PRODUCT_CATEGORIES } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import { cn, formatPrice } from '@/lib/utils'
-import { initMercadoPago } from '@mercadopago/sdk-react'
 import { Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -17,7 +16,7 @@ require('dotenv').config()
 const Page = () => {
   const { items, removeItem } = useCart()
   const [isMounted, setIsMounted] = useState<boolean>(false)
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(true)
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
   const cartTotal = items.reduce(
     (total, { product }) => total + product.price,
     0
@@ -34,14 +33,6 @@ const Page = () => {
   useEffect(() => {
     setIsMounted(true)
   }, [])
-
-  const publicKey = process.env.NEXT_PUBLIC_MERCADO_PK!
-
-  useEffect(() => {
-    initMercadoPago(publicKey, {
-      locale: 'es-UY'
-    })
-  })
 
   return (
     <div className='bg-white'>

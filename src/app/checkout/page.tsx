@@ -83,7 +83,6 @@ const Page = () => {
           onClick={payMercadoPago(
             cartTotal,
             itemName,
-            itemId,
             itemCount,
             email,
             randomId()

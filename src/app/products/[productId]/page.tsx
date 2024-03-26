@@ -145,7 +145,7 @@ const Page = async ({ params }: PageProps) => {
       </div>
 
       <ProductReel
-        href='/products'
+        href={`/products?category=${product.category}`}
         query={{ category: product.category, limit: 4 }}
         title={`${label} similares:`}
         subtitle={`Explora más productos de la categoría ${label} `}

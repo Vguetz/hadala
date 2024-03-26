@@ -1,5 +1,10 @@
 {
   "oneDarkPro.bold": true,
   "oneDarkPro.vivid": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "search.exclude": {
+    "**/*.code-search": false,
+    "**/bower_components": false,
+    "**/node_modules": false
+  }
 }
