@@ -1,96 +1,92 @@
-import { FC, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Icons } from './Icons'
-import NavItems from './NavItems'
 import MaxWidthWrapper from './MaxWidthWrapper'
-import { buttonVariants } from './ui/button'
+import { Icons } from './Icons'
 
+import { buttonVariants } from './ui/button'
 import Cart from './Cart'
-import { useSearchParams } from 'next/navigation'
 import { getServerSideUser } from '@/lib/payload-utils'
 import { cookies } from 'next/headers'
 import UserAccountNav from './UserAccountNav'
+import MobileNav from './MobileNav'
+import ItemsNav from './ItemsNav'
 
-interface NavBarProps {
-  // props
-}
-
-const NavBar: FC<NavBarProps> = async ({}) => {
+const Navbar = async () => {
   const nextCookies = cookies()
   const { user } = await getServerSideUser(nextCookies)
 
   return (
-    <div className='bg-white sticky z-50 top-0 inset-x-0'>
-      <MaxWidthWrapper>
-        <header className='relative bg-white'>
-          <div className='border-b border-gray-200 flex items-center pb-2'>
-            {/* Enlace de Inicio */}
-            <Link
-              className='flex ml-6 font-light text-lg transition-all ease-in hover:border-b border-black p-2'
-              href='/'
-            >
-              Inicio
-            </Link>
+    <div className='bg-white sticky z-50 top-0 inset-x-0 h-16'>
+      <header className='relative bg-white'>
+        <MaxWidthWrapper>
+          <div className='border-b border-gray-200'>
+            <div className='flex h-16 items-center'>
+              <MobileNav />
 
-            {/* Componente NavItems */}
-            <NavItems />
+              <div className='ml-4 flex lg:ml-0'>
+                <Link href='/'>
+                  <Icons.logo className='h-48 w-48 lg:mx-auto lg:my-auto lg:items-center transition-all hover:scale-110' />
+                </Link>
+              </div>
 
-            {/* Centro del espacio (icono centrado) */}
-            <div className='block text-center justify-center ml-auto mr-auto  transition-all ease-in'>
-              <Link href='/'>
-                <Icons.logo className='h-auto w-48 ml-24 hover:scale-110 transition-all basis-auto ease-out 0.3' />
-              </Link>
-            </div>
-            <div className='ml-auto mr-4  flex items-center'>
-              <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                {user ? null : (
-                  <Link
-                    href='/sign-in'
-                    className={buttonVariants({ variant: 'ghost' })}
-                  >
-                    <p className='text-lg font-light'>Iniciar sesion</p>
-                  </Link>
-                )}
-                {user ? null : (
-                  <span
-                    className='h-6 w-px bg-gray-200'
-                    aria-hidden='true'
-                  ></span>
-                )}
-                {user ? (
-                  <UserAccountNav user={user} />
-                ) : (
-                  <Link
-                    href='/sign-up'
-                    className={buttonVariants({ variant: 'ghost' })}
-                  >
-                    <p className='text-lg font-light'>Registrarse</p>
-                  </Link>
-                )}
-                {user ? (
-                  <span
-                    className='h-6 w-px bg-gray-200'
-                    aria-hidden='true'
-                  ></span>
-                ) : null}
-                {user ? null : (
-                  <div className='flex lg:ml-6'>
-                    <span
-                      className='h-6 w-px bg-gray-200'
-                      aria-hidden='true'
-                    ></span>
+              <div className='hidden z-50 lg:ml-8 lg:block lg:self-stretch lg:my-auto items-center justify-center'>
+                {/* <NavItems /> */}
+                <ItemsNav />
+              </div>
+
+              <div className='ml-auto flex items-center'>
+                <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
+                  {user ? null : (
+                    <Link
+                      href='/sign-in'
+                      className={buttonVariants({
+                        variant: 'ghost'
+                      })}
+                    >
+                      Iniciar Sesión
+                    </Link>
+                  )}
+
+                  {user ? null : (
+                    <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
+                  )}
+
+                  {user ? (
+                    <UserAccountNav user={user} />
+                  ) : (
+                    <Link
+                      href='/sign-up'
+                      className={buttonVariants({
+                        variant: 'ghost'
+                      })}
+                    >
+                      Registrarse
+                    </Link>
+                  )}
+
+                  {user ? (
+                    <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
+                  ) : null}
+
+                  {user ? null : (
+                    <div className='flex lg:ml-6'>
+                      <span
+                        className='h-6 w-px bg-gray-200'
+                        aria-hidden='true'
+                      />
+                    </div>
+                  )}
+
+                  <div className='ml-4 flow-root lg:ml-6'>
+                    <Cart />
                   </div>
-                )}
-                <div className='ml-4 flow-root lg:ml-6'>
-                  <Cart />
                 </div>
               </div>
             </div>
           </div>
-        </header>
-      </MaxWidthWrapper>
+        </MaxWidthWrapper>
+      </header>
     </div>
   )
 }
 
-export default NavBar
+export default Navbar

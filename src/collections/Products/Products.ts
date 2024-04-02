@@ -44,7 +44,7 @@ export const Productos: CollectionConfig = {
       options: PRODUCT_CATEGORIES.flatMap(({ featured }) =>
         featured.map(({ category }) => ({
           label: category,
-          value: category // Puedes ajustar esto según tus necesidades
+          value: category
         }))
       ),
       required: true
