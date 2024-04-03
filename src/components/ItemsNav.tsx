@@ -12,6 +12,7 @@ import {
   AccordionItem,
   AccordionTrigger
 } from './ui/accordion'
+import Link from 'next/link'
 
 const SubMenu = ({ title, items }: { title: string; items: string[] }) => {
   const spanClass =
@@ -38,6 +39,18 @@ const ItemsNav = () => {
     Monederos: ['Diseños Únicos', 'Diseños Lisos']
   }
 
+  const clickLink = (e: React.MouseEvent) => {
+    let clicked = false
+    let maxClicksDelay = 500
+    if (!clicked) {
+      clicked = true
+      setTimeout(() => {
+        clicked = false
+      }, maxClicksDelay)
+    }
+    e.preventDefault()
+  }
+
   return (
     <div>
       <NavigationMenu>
@@ -48,7 +61,13 @@ const ItemsNav = () => {
             </NavigationMenuTrigger>
             <NavigationMenuContent className='flex-col p-6'>
               {Object.entries(subLinks).map(([title, items]) => (
-                <SubMenu key={title} title={title} items={items} />
+                <Link
+                  onClick={clickLink}
+                  href={`/products?category=${title}`}
+                  key={title}
+                >
+                  <SubMenu key={title} title={title} items={items} />
+                </Link>
               ))}
             </NavigationMenuContent>
           </NavigationMenuItem>
