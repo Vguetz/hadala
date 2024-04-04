@@ -13,18 +13,54 @@ import {
   AccordionTrigger
 } from './ui/accordion'
 import Link from 'next/link'
+import React, { useState } from 'react'
 
-const SubMenu = ({ title, items }: { title: string; items: string[] }) => {
-  const spanClass =
-    'absolute bottom-0 left-0 w-full h-0.5 bg-slate-500 transition-all duration-200 transform scale-x-0 group-hover:scale-x-100'
+const SubMenuItem = ({
+  title,
+  className
+}: {
+  title: string
+  className: string
+}) => {
+  const [isHovered, setIsHovered] = useState(false)
 
+  return (
+    <div
+      className='relative'
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <span
+        className={`absolute bottom-0 left-1/2 w-full h-0.5 bg-slate-500 transition-all duration-200 transform -translate-x-1/2 scale-x-0 ${isHovered ? 'scale-x-100' : ''}`}
+      ></span>
+      {title}
+    </div>
+  )
+}
+
+const SubMenu = ({
+  title,
+  items,
+  className
+}: {
+  title: string
+  items: string[]
+  className: string
+}) => {
   return (
     <Accordion type='single' collapsible>
       <AccordionItem value={title}>
         <AccordionTrigger>{title}</AccordionTrigger>
-        <span className={spanClass}></span>
+
         {items.map((item, index) => (
-          <AccordionContent key={index}>{item}</AccordionContent>
+          <Link
+            href={`/products?category=${item === 'Ver Todo' ? title : title + item}`}
+            key={title}
+          >
+            <AccordionContent className={className} key={index}>
+              <SubMenuItem title={item} className={className} />
+            </AccordionContent>
+          </Link>
         ))}
       </AccordionItem>
     </Accordion>
@@ -33,22 +69,12 @@ const SubMenu = ({ title, items }: { title: string; items: string[] }) => {
 
 const ItemsNav = () => {
   const subLinks = {
-    Mochilas: ['Diseños Únicos', 'Diseños Lisos'],
-    Billeteras: ['Diseños Únicos', 'Diseños Lisos'],
-    Bolsos: ['Diseños Únicos', 'Diseños Lisos'],
-    Monederos: ['Diseños Únicos', 'Diseños Lisos']
-  }
-
-  const clickLink = (e: React.MouseEvent) => {
-    let clicked = false
-    let maxClicksDelay = 500
-    if (!clicked) {
-      clicked = true
-      setTimeout(() => {
-        clicked = false
-      }, maxClicksDelay)
-    }
-    e.preventDefault()
+    Mochilas: ['Únicas', 'Lisas', 'Ver Todo'],
+    Billeteras: ['Únicas', 'Lisas', 'Ver Todo'],
+    Bolsos: ['Únicos', 'Lisos', 'Ver Todo'],
+    Monederos: ['Únicos', 'Lisos', 'Ver Todo'],
+    Riñoneras: ['Únicas', 'Lisas', 'Ver Todo'],
+    Carteras: ['Únicas', 'Lisas', 'Ver Todo']
   }
 
   return (
@@ -61,13 +87,12 @@ const ItemsNav = () => {
             </NavigationMenuTrigger>
             <NavigationMenuContent className='flex-col p-6'>
               {Object.entries(subLinks).map(([title, items]) => (
-                <Link
-                  onClick={clickLink}
-                  href={`/products?category=${title}`}
+                <SubMenu
+                  className='text-center font-light text-sm text-slate-900'
                   key={title}
-                >
-                  <SubMenu key={title} title={title} items={items} />
-                </Link>
+                  title={title}
+                  items={items}
+                />
               ))}
             </NavigationMenuContent>
           </NavigationMenuItem>
