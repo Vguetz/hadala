@@ -1,6 +1,8 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import ProductReel from '@/components/ProductReel'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { PRODUCT_CATEGORIES } from '@/config'
+import Link from 'next/link'
 
 type Param = string | string[] | undefined
 
@@ -14,22 +16,39 @@ const parse = (param: Param) => {
 
 const ProductsPage = ({ searchParams }: ProductsPageProps) => {
   const sort = parse(searchParams.sort)
-  const category = parse(searchParams.category)
+  const categorys = parse(searchParams.category)
 
-  const label = PRODUCT_CATEGORIES.flatMap(({ featured }) =>
-    featured.map(({ category }) => category)
-  ).find((label) => label === category)
+  let labelString: string | undefined = undefined
+
+  if (categorys) {
+    const label = PRODUCT_CATEGORIES.find(
+      (category) => category.category === categorys
+    )
+    labelString = label ? label.category : undefined
+  }
 
   return (
     <MaxWidthWrapper>
-      <ProductReel
-        title={label ?? 'Encontrá lo que buscas en nuestra tienda'}
-        query={{
-          category: label,
-          limit: 40,
-          sort: sort === 'desc' || sort === 'asc' ? sort : undefined
-        }}
-      />
+      {typeof labelString === 'string' ? (
+        <ProductReel
+          title={labelString}
+          query={{
+            category: labelString,
+            limit: 40,
+            sort: sort === 'desc' || sort === 'asc' ? sort : undefined
+          }}
+        />
+      ) : (
+        <>
+          <ProductReel
+            title='Encontrá lo que buscas en nuestra tienda'
+            query={{
+              limit: 40,
+              sort: sort === 'desc' || sort === 'asc' ? sort : undefined
+            }}
+          />
+        </>
+      )}
     </MaxWidthWrapper>
   )
 }

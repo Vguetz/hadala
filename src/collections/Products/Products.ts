@@ -41,12 +41,14 @@ export const Productos: CollectionConfig = {
       name: 'category',
       label: 'Categoria',
       type: 'select',
-      options: PRODUCT_CATEGORIES.flatMap(({ featured }) =>
-        featured.map(({ category }) => ({
-          label: category,
-          value: category
-        }))
-      ),
+      options: [
+        'Mochilas',
+        'Billeteras',
+        'Riñoneras',
+        'Bolsos',
+        'Carteras',
+        'Monederos'
+      ],
       required: true
     },
 
@@ -56,6 +58,9 @@ export const Productos: CollectionConfig = {
       type: 'relationship',
       required: true,
       relationTo: 'product_files',
+      admin: {
+        hidden: true
+      },
       hasMany: false
     },
     {

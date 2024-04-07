@@ -24,9 +24,9 @@ const ProductListing = ({ index, product }: ProductListingProps) => {
   }, [index])
 
   if (!product || !isVisible) return <ProductPlaceHolder />
-  const label = PRODUCT_CATEGORIES.flatMap(({ featured }) =>
-    featured.map(({ category }) => category)
-  ).find((label) => label === product.category)
+  const label = PRODUCT_CATEGORIES.find(
+    (category) => category.category === product.category
+  )?.name
 
   const validUrls = product.images
     .map(({ image }) => (typeof image === 'string' ? image : image.url))

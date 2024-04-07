@@ -10,6 +10,7 @@ export default function Home() {
         query={{ sort: 'desc', limit: 4 }}
         href='/products'
         title='Algunos de nuestros productos'
+        subtitle='Explora nuestra selección de productos más populares.'
       ></ProductReel>
     </MaxWidthWrapper>
   )

@@ -81,7 +81,7 @@ const MobileNav = () => {
         <div className='fixed inset-0 bg-black bg-opacity-25' />
       </div>
 
-      <div className='fixed overflow-y-scroll overscroll-y-none inset-0 z-40 flex'>
+      <div className='fixed overflow-y-scroll overscroll-y-none transition ease-in delay-100 inset-0 z-40 flex'>
         <div className='w-4/5'>
           <div className='relative flex w-full max-w-sm flex-col overflow-y-auto bg-white pb-12 shadow-xl'>
             <div className='flex px-4 pb-2 pt-5'>
@@ -93,59 +93,49 @@ const MobileNav = () => {
                 <X className='h-6 w-6' aria-hidden='true' />
               </button>
             </div>
+            <h1 className='text-center  underline underline-offset-4 font-bold'>
+              Productos
+            </h1>
 
             <div className='mt-2'>
               <ul>
-                {PRODUCT_CATEGORIES.map((category) => (
+                {products.map((product) => (
                   <li
-                    key={category.label}
-                    className='space-y-10 px-4 pb-8 pt-10'
+                    className='text-center overflow-hidden border-b border-gray-200 m-2 p-2  transition ease-in delay-100 hover:bg-gray-100 '
+                    key={product.name}
                   >
-                    <div className='border-b border-gray-200'>
-                      <div className='-mb-px flex'>
-                        <p className='border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 py-4 text-base font-medium'>
-                          {category.label}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className='grid grid-cols-2 gap-y-10 gap-x-4'>
-                      {category.featured.map((item) => (
-                        <div key={item.name} className='group relative text-sm'>
-                          <Link
-                            href={item.href}
-                            className='mt-6 block font-medium text-gray-900'
-                          >
-                            {item.name}
-                          </Link>
-                        </div>
-                      ))}
-                    </div>
+                    <Link
+                      onClick={() => closeOnCurrent(product.href)}
+                      href={product.href}
+                      className='-m-2 block p-2 font-light text-gray-900'
+                    >
+                      {product.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
             </div>
-
-            <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
+            {/* Iniciar sesion va a estar disponible mas adelante */}
+            {/* <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
               <div className='flow-root'>
-                <Link
-                  onClick={() => closeOnCurrent('/sign-in')}
-                  href='/sign-in'
-                  className='-m-2 block p-2 font-medium text-gray-900'
-                >
-                  Iniciar Sesión
-                </Link>
+                  <Link
+                    onClick={() => closeOnCurrent('/sign-in')}
+                    href='/sign-in'
+                    className='-m-2 block p-2 font-medium text-gray-900'
+                  >
+                    Iniciar Sesión
+                  </Link>
+                </div>
+                <div className='flow-root'>
+                  <Link
+                    onClick={() => closeOnCurrent('/sign-up')}
+                    href='/sign-up'
+                    className='-m-2 block p-2 font-medium text-gray-900'
+                  >
+                    Registrarse
+                  </Link>
               </div>
-              <div className='flow-root'>
-                <Link
-                  onClick={() => closeOnCurrent('/sign-up')}
-                  href='/sign-up'
-                  className='-m-2 block p-2 font-medium text-gray-900'
-                >
-                  Registrarse
-                </Link>
-              </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -81,6 +81,9 @@ const Navbar = async () => {
                   </div>
                 </div>
               </div>
+              <div className='lg:hidden '>
+                <Cart />
+              </div>
             </div>
           </div>
         </MaxWidthWrapper>
