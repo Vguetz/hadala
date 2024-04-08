@@ -1,5 +1,5 @@
 'use client'
-import { ShoppingCartIcon } from 'lucide-react'
+import { ShoppingCartIcon, Truck } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
@@ -17,11 +17,14 @@ import { useCart } from '@/hooks/use-cart'
 import { ScrollArea } from './ui/scroll-area'
 import CartItem from './CartItem'
 import { useEffect, useState } from 'react'
+import { Progress } from './ui/progress'
 
 const Cart = () => {
   const { items } = useCart()
   const itemCount = items.length
 
+  const [cartTotals, setCartTotal] = useState<number>(0)
+  const [progressPercentage, setProgressPercentage] = useState<number>(0)
   const [isMounted, setIsMounted] = useState<boolean>(false)
 
   useEffect(() => {
@@ -32,6 +35,20 @@ const Cart = () => {
     (total, { product }) => total + product.price,
     0
   )
+
+  const cartTotalToNumber = cartTotal
+
+  useEffect(() => {
+    setIsMounted(true)
+
+    // Calcular el total del carrito
+    const total = items.reduce((acc, { product }) => acc + product.price, 0)
+    setCartTotal(total)
+
+    // Calcular el porcentaje de progreso
+    const percentage = (total / 3000) * 100
+    setProgressPercentage(percentage)
+  }, [items])
   return (
     <Sheet>
       <SheetTrigger className='group -m-2 flex items-center p-2'>
@@ -47,6 +64,40 @@ const Cart = () => {
         <SheetHeader className='space-y-2.5 pr-6'>
           <SheetTitle>Carrito ({itemCount})</SheetTitle>
         </SheetHeader>
+
+        {cartTotal < 3000 ? (
+          <>
+            <div className='border-gray-700 border p-4 m-4'>
+              <h3 className='text-sm font-semibold text-gray-700 flex'>
+                <Truck className='flex w-12' />
+                Envío gratis en ordenes +$3000
+              </h3>
+              <Progress
+                indicatorColor='bg-blue-500'
+                className=' my-2'
+                value={progressPercentage}
+              />
+              <p>
+                ¡Te faltan ${3000 - cartTotal} para llegar a el envio GRATIS!
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className='border-gray-700 border p-4 m-4'>
+              <h3 className='text-sm font-semibold text-gray-700 flex'>
+                <Truck className='flex w-12' />
+                Envío gratis en ordenes +$3000
+              </h3>
+              <Progress
+                indicatorColor='bg-blue-500'
+                className='my-2'
+                value={100}
+              />
+              <p>¡Felicidades! ¡Tu envío es GRATIS!</p>
+            </div>
+          </>
+        )}
         {itemCount > 0 ? (
           <>
             <div className='flex w-full flex-col pr-6'>
@@ -95,7 +146,7 @@ const Cart = () => {
             <div className='text-xl font-semibold'>Tu carrito está vacío</div>
             <SheetTrigger asChild>
               <Link
-                href='productos'
+                href='/products'
                 className={buttonVariants({
                   variant: 'link',
                   size: 'sm',

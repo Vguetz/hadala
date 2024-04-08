@@ -10,9 +10,11 @@ import Image from 'next/image'
 const CartItem = ({ product }: { product: Product }) => {
   const { image } = product.images[0]
 
-  const label = PRODUCT_CATEGORIES.flatMap(({ featured }) =>
-    featured.map(({ category }) => category)
-  ).find((label) => label === product.category)
+  const label = PRODUCT_CATEGORIES.map((category) => {
+    if (category.category === product.category) {
+      return category.name
+    }
+  })
 
   const { removeItem } = useCart()
 
