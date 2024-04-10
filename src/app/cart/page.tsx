@@ -10,10 +10,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import useEmail from '@/hooks/use-email'
+import e from 'express'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
+import { set } from 'zod'
+import { Icons } from '@/components/Icons'
 
 require('dotenv').config()
 
 const Page = () => {
+  useEffect(() => {
+    let storageEmail
+    // Get the value from local storage if it exists
+    storageEmail = localStorage.getItem('email') || ''
+    setEmail(storageEmail)
+  }, [])
+  localStorage.setItem('email', '')
   const { items, removeItem } = useCart()
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
@@ -21,7 +33,6 @@ const Page = () => {
     (total, { product }) => total + product.price,
     0
   )
-  // const [email, setEmail] = useState<string>('')
   const [email, setEmail] = useEmail()
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +40,21 @@ const Page = () => {
     // Verificar si el email es válido
     setIsValidEmail(/^\S+@\S+\.\S+$/.test(event.target.value.trim()))
   }
+
+  const selectPaymentMethod = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setMercadoPago(true)
+    const value = event.currentTarget.value
+    if (value === 'mercadopago' || value === '') {
+      setMercadoPago(true)
+    } else if (value === 'transferencia') {
+      setMercadoPago(false)
+    } else {
+      setMercadoPago(true)
+    }
+    return setMercadoPago
+  }
+
+  const [mercadoPago, setMercadoPago] = useState<boolean>(false)
 
   useEffect(() => {
     setIsMounted(true)
@@ -80,9 +106,11 @@ const Page = () => {
             >
               {isMounted &&
                 items.map(({ product }) => {
-                  const category = PRODUCT_CATEGORIES.flatMap(({ featured }) =>
-                    featured.map(({ category }) => category)
-                  ).find((label) => label === product.category)
+                  const category = PRODUCT_CATEGORIES.map((category) => {
+                    if (category.name === product.category) {
+                      return category.name
+                    }
+                  })
 
                   const { image } = product.images[0]
                   return (
@@ -125,7 +153,6 @@ const Page = () => {
                             <div></div>
                             <div className='absolute right-0 top-0'>
                               <Button
-                                onClick={() => removeItem(product.id)}
                                 variant='ghost'
                                 aria-label='Remover producto del carrito'
                               >
@@ -164,7 +191,7 @@ const Page = () => {
                 </div>
               </div>
               <div className='flex items-center justify-between border-t border-gray-200'>
-                <div className='text-base font-medium flex gap-2  text-gray-900'>
+                <div className='text-base font-medium flex gap-2 p-4  text-gray-900'>
                   Total:{' '}
                   {isMounted || items.length > 0 ? (
                     <div className='flex'>{formatPrice(cartTotal)}</div>
@@ -179,6 +206,7 @@ const Page = () => {
                     <Input
                       id='email'
                       placeholder='Ingresa tu email'
+                      className='truncate w-full p-2 m-2 text-center border-2 border-gray-200 rounded-md'
                       value={email}
                       onChange={handleEmailChange}
                       required
@@ -192,15 +220,42 @@ const Page = () => {
                   </div>
 
                   {isMounted || items.length > 0 || email != '' ? (
-                    <form>
+                    <form onSubmit={(e) => e.preventDefault()}>
+                      <div>
+                        <p className='md:flex'>Forma de pago:</p>
+                        <div className='mt-2 space-x-4'>
+                          <RadioGroup defaultValue=''>
+                            <div className='flex items-center space-x-2'>
+                              <Icons.mercadoPagoIcon className='h-8 w-8' />
+                              <RadioGroupItem
+                                value='mercadopago'
+                                id='r1'
+                                onClick={selectPaymentMethod}
+                              />
+                              <Label htmlFor='r1'>Mercado Pago</Label>
+                            </div>
+                            <div className='flex items-center space-x-2'>
+                              <Icons.transferenciaIcon className='h-8 w-8' />
+                              <RadioGroupItem
+                                value='transferencia'
+                                onClick={selectPaymentMethod}
+                                id='r2'
+                              />
+                              <Label htmlFor='r2'>Transferencia Bancaria</Label>
+                            </div>
+                          </RadioGroup>
+                        </div>
+                      </div>
                       <Input
                         value={formatPrice(cartTotal)}
                         name='total'
                         disabled
-                        className='justify-end text-end hidden text-lg font-medium text-gray-900 bg-transparent border-none w-full cursor-not-allowed opacity-100'
+                        className='hidden text-lg font-medium px-4 text-gray-900 bg-transparent border-none w-full cursor-not-allowed opacity-100'
                       ></Input>
                       <Link
-                        href={isValidEmail ? '/checkout' : '#'}
+                        href={
+                          mercadoPago === true ? '/checkout' : '/transferencia'
+                        }
                         className={cn(
                           buttonVariants({
                             variant: 'default',
