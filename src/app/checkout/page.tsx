@@ -24,15 +24,16 @@ const Page = () => {
 
   const [email, setEmail] = useEmail()
 
-  // Retrieve email from query parameters
   useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search)
-    const queryEmail = queryParams.get('email')
-    if (queryEmail) {
-      setEmail(queryEmail)
+    if (items.length === 0) {
+      window.location.href = '/'
     }
-  }, [])
+  }, [items])
 
+  //get name , phone and direccion from localStorage
+  const name = localStorage.getItem('name')
+  const phone = localStorage.getItem('phone')
+  const direccion = localStorage.getItem('direccion')
   return (
     <form className='flex justify-center items-center'>
       <Loader2 className='h-12 animate-spin flex items-center justify-center w-12 ' />

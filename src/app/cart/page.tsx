@@ -15,30 +15,41 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
 import { set } from 'zod'
 import { Icons } from '@/components/Icons'
+import usePhone from '@/hooks/use-phone'
 
 require('dotenv').config()
 
 const Page = () => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('email', '')
+  }
+
   useEffect(() => {
     let storageEmail
     // Get the value from local storage if it exists
     storageEmail = localStorage.getItem('email') || ''
     setEmail(storageEmail)
   }, [])
-  localStorage.setItem('email', '')
   const { items, removeItem } = useCart()
   const [isMounted, setIsMounted] = useState<boolean>(false)
+  const [name, setName] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
   const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
+  const [radioGroupValue, setRadioGroupValue] = useState<string>('')
+
   const cartTotal = items.reduce(
     (total, { product }) => total + product.price,
     0
   )
   const [email, setEmail] = useEmail()
-
+  const [phone, isValidPhone, handlePhoneChange] = usePhone()
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)
     // Verificar si el email es válido
     setIsValidEmail(/^\S+@\S+\.\S+$/.test(event.target.value.trim()))
+  }
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
   }
 
   const selectPaymentMethod = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,8 +57,10 @@ const Page = () => {
     const value = event.currentTarget.value
     if (value === 'mercadopago' || value === '') {
       setMercadoPago(true)
+      setRadioGroupValue('mercadopago')
     } else if (value === 'transferencia') {
       setMercadoPago(false)
+      setRadioGroupValue('transferencia')
     } else {
       setMercadoPago(true)
     }
@@ -60,6 +73,15 @@ const Page = () => {
     setIsMounted(true)
   }, [])
 
+  useEffect(() => {
+    if (email != '') {
+      localStorage.setItem('email', email)
+    }
+  }, [email])
+  useEffect(() => {
+    localStorage.setItem('phone', phone)
+    localStorage.setItem('name', name)
+  }, [name, phone])
   return (
     <div className='bg-white'>
       <div className='mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
@@ -97,7 +119,76 @@ const Page = () => {
                 </p>
               </div>
             ) : null}
+            {isMounted && items.length > 0 ? (
+              <div>
+                <h2 className='text-2xl'>Detalles de facturación</h2>
+                <div className='my-4 h-full justify-start'>
+                  <div>
+                    <Label>
+                      Nombre
+                      <Input
+                        id='name'
+                        type='text'
+                        placeholder='Ingresa tu nombre'
+                        className='w-full p-2 m-2  border-2 border-gray-200 rounded-md'
+                        required
+                      />
+                    </Label>
 
+                    <Label>
+                      Email
+                      <Input
+                        id='email'
+                        placeholder='Ingresa tu email'
+                        className='truncate w-full p-2 m-2  border-2 border-gray-200 rounded-md'
+                        value={email}
+                        onChange={handleEmailChange}
+                        required
+                        type='email'
+                      />
+                      {!isValidEmail && (
+                        <p className='text-red-500 text-xs mt-1 animate-pulse'>
+                          Por favor, ingresa un email válido.
+                        </p>
+                      )}
+                    </Label>
+                    <Label>
+                      Teléfono
+                      <Input
+                        id='phone'
+                        placeholder='Ingresa tu telefono'
+                        className='w-full p-2 m-2  border-2 border-gray-200 rounded-md'
+                        type='tel'
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        required
+                      />
+                      {!isValidPhone && (
+                        <p className='text-red-500 text-xs mt-1 animate-pulse'>
+                          Por favor, ingresa un teléfono válido de 9 dígitos.
+                        </p>
+                      )}
+                    </Label>
+
+                    <Label>
+                      Dirección
+                      <Input
+                        id='address'
+                        type='text'
+                        placeholder='Ingresa tu direccion'
+                        className='w-full p-2 m-2  border-2 border-gray-200 rounded-md'
+                        required
+                      />
+                    </Label>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <section className='mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8'>
+            <h2 className='text-lg font-medium text-gray-900'>
+              Resumen del pedido
+            </h2>
             <ul
               className={cn({
                 'divide-y divide-gray-200 border-b border-t border-gray-200':
@@ -156,7 +247,11 @@ const Page = () => {
                                 variant='ghost'
                                 aria-label='Remover producto del carrito'
                               >
-                                <X className='h-5 w-5' aria-hidden='true' />
+                                <X
+                                  className='h-5 w-5'
+                                  aria-hidden='true'
+                                  onClick={removeItem.bind(this, product.id)}
+                                />
                               </Button>
                             </div>
                           </div>
@@ -166,11 +261,6 @@ const Page = () => {
                   )
                 })}
             </ul>
-          </div>
-          <section className='mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8'>
-            <h2 className='text-lg font-medium text-gray-900'>
-              Resumen del pedido
-            </h2>
             <div className='mt-6 space-y-4'>
               <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-600'>Subtotal</p>
@@ -201,23 +291,7 @@ const Page = () => {
                 </div>
 
                 <div className='text-base font-medium text-gray-900'>
-                  <div className='p-2 m-2 text-center'>
-                    <p className='m-2 p-2 text-center'>Tu email</p>
-                    <Input
-                      id='email'
-                      placeholder='Ingresa tu email'
-                      className='truncate w-full p-2 m-2 text-center border-2 border-gray-200 rounded-md'
-                      value={email}
-                      onChange={handleEmailChange}
-                      required
-                      type='email'
-                    />
-                    {!isValidEmail && (
-                      <p className='text-red-500 text-xs mt-1 animate-pulse'>
-                        Por favor, ingresa un email válido.
-                      </p>
-                    )}
-                  </div>
+                  <div className='p-2 m-2 text-center'></div>
 
                   {isMounted || items.length > 0 || email != '' ? (
                     <form onSubmit={(e) => e.preventDefault()}>
@@ -263,7 +337,8 @@ const Page = () => {
                           }),
                           'transition-colors duration-300',
                           {
-                            'pointer-events-none opacity-50': !isValidEmail
+                            'pointer-events-none opacity-50':
+                              !isValidEmail || !isValidPhone || !radioGroupValue
                           }
                         )}
                       >

@@ -25,11 +25,26 @@ export const Payments: CollectionConfig = {
       required: true
     },
     {
-      name: 'user',
+      name: 'email',
       type: 'text',
       admin: {
         readOnly: true
       }
+    },
+    {
+      name: 'nombre',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'telefono',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'direccion',
+      type: 'text',
+      required: true
     },
     {
       name: 'producto',

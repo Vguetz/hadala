@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       title: item.title,
       quantity: item.quantity,
       unit_price: item.unit_price,
-      description: item.description
+      description: item.description!
     }
   })
 
@@ -39,8 +39,11 @@ export async function POST(request: NextRequest) {
     data: {
       productoPagado: true,
       producto: items![0].title,
+      direccion: items![0].description,
+      telefono: items![0].description,
+      nombre: items![0].description,
       orderId: items![0].id,
-      user: items![0].description,
+      email: items![0].description,
       dinero: pago.amount!
     }
   })

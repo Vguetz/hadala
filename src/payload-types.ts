@@ -159,7 +159,10 @@ export interface Admin {
 export interface Pago {
   id: string;
   productoPagado: boolean;
-  user?: string | null;
+  email?: string | null;
+  nombre: string;
+  telefono: string;
+  direccion: string;
   producto: string;
   dinero: number;
   orderId: string;
