@@ -20,10 +20,6 @@ import usePhone from '@/hooks/use-phone'
 require('dotenv').config()
 
 const Page = () => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('email', '')
-  }
-
   useEffect(() => {
     let storageEmail
     // Get the value from local storage if it exists
@@ -50,6 +46,12 @@ const Page = () => {
   }
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)
+  }
+
+  const handleDireccionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setAddress(event.target.value)
   }
 
   const selectPaymentMethod = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -81,7 +83,8 @@ const Page = () => {
   useEffect(() => {
     localStorage.setItem('phone', phone)
     localStorage.setItem('name', name)
-  }, [name, phone])
+    localStorage.setItem('direccion', address)
+  }, [name, phone, address])
   return (
     <div className='bg-white'>
       <div className='mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
@@ -130,6 +133,7 @@ const Page = () => {
                         id='name'
                         type='text'
                         placeholder='Ingresa tu nombre'
+                        onChange={handleNameChange}
                         className='w-full p-2 m-2  border-2 border-gray-200 rounded-md'
                         required
                       />
@@ -176,6 +180,7 @@ const Page = () => {
                         id='address'
                         type='text'
                         placeholder='Ingresa tu direccion'
+                        onChange={handleDireccionChange}
                         className='w-full p-2 m-2  border-2 border-gray-200 rounded-md'
                         required
                       />

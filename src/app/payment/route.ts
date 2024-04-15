@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
   const secret = request.headers.get('x-signature-id')
   const payment = await new Payment(client).get({ id: body.data.id })
 
+  console.log('payment', payment.additional_info?.payer)
   const pago = {
     id: payment.id,
     amount: payment.transaction_amount,
@@ -28,6 +29,8 @@ export async function POST(request: NextRequest) {
     }
   })
 
+  const payer = payment.additional_info?.payer
+
   const data = {
     id: pago.id,
     amount: pago.amount
@@ -39,9 +42,9 @@ export async function POST(request: NextRequest) {
     data: {
       productoPagado: true,
       producto: items![0].title,
-      direccion: items![0].description,
-      telefono: items![0].description,
-      nombre: items![0].description,
+      direccion: payer?.address?.street_name!,
+      telefono: payer?.phone?.number!,
+      nombre: payer?.first_name!,
       orderId: items![0].id,
       email: items![0].description,
       dinero: pago.amount!

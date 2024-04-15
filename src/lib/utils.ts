@@ -23,3 +23,8 @@ export function formatPrice(
     maximumFractionDigits: 4
   }).format(numericPrice)
 }
+
+export function getLocalStorage(key: string) {
+  const value = localStorage.getItem(key)
+  return value
+}

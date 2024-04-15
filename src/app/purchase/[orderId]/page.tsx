@@ -33,7 +33,9 @@ export const Page = async ({ params }: PageProps) => {
 
   const orderDetails = [
     { label: 'Producto:', value: order.producto },
-    { label: 'Comprador:', value: order.user },
+    { label: 'Teléfono:', value: order.telefono },
+    { label: 'Dirección:', value: order.direccion },
+    { label: 'Comprador:', value: order.email },
     { label: 'Total:', value: `$${order.dinero}`, isBold: true }
   ]
 
@@ -45,7 +47,7 @@ export const Page = async ({ params }: PageProps) => {
           <div className='lg:col-start-2'>
             <p className='text-sm font-medium'>Orden completa.</p>
             <h1 className='mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl'>
-              ¡Gracias por comprar en Hadalá!
+              ¡Gracias {order.nombre} por comprar en Hadalá!
             </h1>
 
             {order.productoPagado ? (
@@ -54,7 +56,7 @@ export const Page = async ({ params }: PageProps) => {
                 contigo para coordinar el envío. Hemos enviado un correo a{' '}
                 <span className='font-medium text-gray-900'>
                   {' '}
-                  {order.user}{' '}
+                  {order.email}{' '}
                 </span>
                 con los detalles de la compra. Si tienes alguna duda, no dudes
                 en contactarnos.
@@ -90,7 +92,7 @@ export const Page = async ({ params }: PageProps) => {
               <div className='mt-16 grid grid-cols-2 gap-x-4 text-sm text-gray-600'>
                 <div>
                   <p className='font-medium text-gray-900'>Enviar a</p>
-                  <p>{order.user}</p>
+                  <p>{order.email}</p>
                 </div>
 
                 <div>

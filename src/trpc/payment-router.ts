@@ -11,7 +11,10 @@ export async function payMercadoPago(
   itemName: string,
   itemCount: number,
   email: string,
-  randomId: string
+  randomId: string,
+  name: string,
+  phone: string,
+  direccion: string
 ) {
   const preference = await new Preference(client).create({
     body: {
@@ -31,7 +34,14 @@ export async function payMercadoPago(
 
       auto_return: 'approved',
       payer: {
-        email: email
+        email: email,
+        name: name,
+        phone: {
+          number: phone
+        },
+        address: {
+          street_name: direccion
+        }
       }
     }
   })

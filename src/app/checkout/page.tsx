@@ -3,9 +3,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useCart } from '@/hooks/use-cart'
 import useEmail from '@/hooks/use-email'
+import { getLocalStorage } from '@/lib/utils'
 import { payMercadoPago } from '@/trpc/payment-router'
 import { Loader2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 
 const Page = () => {
   const randomId = () => Math.random().toString(36).substring(2, 10)
@@ -23,17 +24,18 @@ const Page = () => {
   const itemId = items.map((item) => item.product.id).join(', ')
 
   const [email, setEmail] = useEmail()
-
   useEffect(() => {
     if (items.length === 0) {
       window.location.href = '/'
     }
   }, [items])
 
+  //TODO :  get name , phone and direccion from localStorage
   //get name , phone and direccion from localStorage
-  const name = localStorage.getItem('name')
-  const phone = localStorage.getItem('phone')
-  const direccion = localStorage.getItem('direccion')
+  const name = getLocalStorage('name')
+  const phone = getLocalStorage('phone')
+  const direccion = getLocalStorage('direccion')
+
   return (
     <form className='flex justify-center items-center'>
       <Loader2 className='h-12 animate-spin flex items-center justify-center w-12 ' />
@@ -77,6 +79,9 @@ const Page = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
+      <Input id='name' hidden className='hidden' value={name!} />
+      <Input id='phone' hidden className='hidden' value={phone!} />
+      <Input id='direccion' hidden className='hidden' value={direccion!} />
       <div className='hidden flex-col gap-2 p-4'>
         <Button
           type='submit'
@@ -86,7 +91,10 @@ const Page = () => {
             itemName,
             itemCount,
             email,
-            randomId()
+            randomId(),
+            name!,
+            phone!,
+            direccion!
           )}
           className='w-full mt-4'
           variant='default'
