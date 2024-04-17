@@ -9,6 +9,7 @@ import { cookies } from 'next/headers'
 import UserAccountNav from './UserAccountNav'
 import MobileNav from './MobileNav'
 import ItemsNav from './ItemsNav'
+import SearchBar from './SearchBar'
 
 const Navbar = async () => {
   const nextCookies = cookies()
@@ -34,6 +35,9 @@ const Navbar = async () => {
               </div>
 
               <div className='ml-auto flex items-center'>
+                <div className='mr-8'>
+                  <SearchBar />
+                </div>
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
                   {user ? null : (
                     <Link
@@ -84,6 +88,7 @@ const Navbar = async () => {
               <div className='lg:hidden '>
                 <Cart />
               </div>
+              <div className=''></div>
             </div>
           </div>
         </MaxWidthWrapper>

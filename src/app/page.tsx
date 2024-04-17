@@ -1,6 +1,7 @@
 import { LandingPage } from '@/components/LandingPage'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import ProductReel from '@/components/ProductReel'
+import Link from 'next/link'
 
 export default function Home() {
   return (
