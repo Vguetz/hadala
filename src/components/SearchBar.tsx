@@ -3,12 +3,25 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Input } from './ui/input'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import SearchResults from './SearchResults'
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams
+} from 'next/navigation'
+import Link from 'next/link'
+
+interface SearchResultsProps {
+  searchTerm: string
+}
 
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [openSearchResults, setOpenSearchResults] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const { replace } = useRouter()
 
   useEffect(() => {
     if (openSearchResults && inputRef.current) {
@@ -28,17 +41,6 @@ const SearchBar: React.FC = () => {
     }
   }, [openSearchResults])
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-    // Perform search logic here
-  }
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-      setOpenSearchResults(false)
-    }
-  }
-
   useEffect(() => {
     if (openSearchResults) {
       document.addEventListener('mousedown', handleClickOutside)
@@ -50,6 +52,28 @@ const SearchBar: React.FC = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [openSearchResults])
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+    handleSearchResults(event.target.value)
+  }
+
+  const handleSearchResults = (searchTerm: string) => {
+    const params = new URLSearchParams(searchParams)
+    if (searchTerm) {
+      params.set('query', searchTerm)
+    } else {
+      params.delete('query')
+    }
+    replace(`${pathname}?${params.toString()}`)
+    redirect(`/search/${searchTerm}`)
+  }
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+      setOpenSearchResults(false)
+    }
+  }
 
   return (
     <div className='p-2 flex transition-all ease-out 0.5 my-auto'>
@@ -76,11 +100,29 @@ const SearchBar: React.FC = () => {
           onChange={handleSearch}
         />
         <div className='mx-auto flex transition-all ease-out 0.5'>
-          {openSearchResults && (
-            <SearchResults
-              searchTerm={searchTerm}
-              openSearchResults={openSearchResults}
-            />
+          {openSearchResults && searchTerm.length > 0 && (
+            <div
+              className={cn(
+                'bg-white shadow-lg border-b border-gray-50 absolute p-2 my-1',
+                searchTerm.length > 0 ? 'block max-w-[182px]' : 'hidden'
+              )}
+            >
+              <div className=''>
+                <div className='flex flex-col p-2'>
+                  <div className='text-sm text-gray-700'>
+                    <p className='underline'>Resultados de la búsqueda</p>
+                  </div>
+                  <div className='flex flex-col'>
+                    <Link
+                      href={`/search/${searchTerm}`}
+                      className='flex flex-col'
+                    >
+                      {searchTerm}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>
