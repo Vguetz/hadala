@@ -124,9 +124,17 @@ const SearchBar = () => {
                       </div>
                     ))}
                     {queryResults?.length === 0 && (
-                      <p className='text-sm text-gray-700'>
-                        No se encontraron resultados
-                      </p>
+                      <div>
+                        <p className='text-sm text-gray-700'>
+                          No se encontraron resultados
+                        </p>
+                        {/* TODO: Search section */}
+                        {/* <Link href='/search'>
+                          <p className='text-sm text-blue-500 hover:text-blue-700'>
+                            Buscar en toda la tienda...
+                          </p>
+                        </Link> */}
+                      </div>
                     )}
                   </div>
                 </div>

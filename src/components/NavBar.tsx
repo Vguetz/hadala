@@ -39,7 +39,7 @@ const Navbar = async () => {
                   <SearchBar />
                 </div>
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                  {user ? null : (
+                  {/* {user ? null : (
                     <Link
                       href='/sign-in'
                       className={buttonVariants({
@@ -78,7 +78,7 @@ const Navbar = async () => {
                         aria-hidden='true'
                       />
                     </div>
-                  )}
+                  )} */}
 
                   <div className='ml-4 flow-root lg:ml-6'>
                     <Cart />
