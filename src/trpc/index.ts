@@ -18,8 +18,15 @@ export const appRouter = router({
 
       const payload = await getPayloadClient()
 
+      type Product = {
+        id: string
+        name: string
+        images: { image: string }[] // Esta es una suposición, ajusta según la estructura real de tus datos
+      }
+
+      // Llama a payload.find() con el tipo especificado
       const { docs: products } = await payload.find({
-        collection: 'products',
+        collection: 'products', // Asegúrate de que la colección sea "products"
         where: {
           name: {
             contains: query
@@ -27,10 +34,7 @@ export const appRouter = router({
         }
       })
 
-      return products.map((product) => ({
-        id: product.id,
-        name: product.name
-      }))
+      return products
     }),
 
   getInfiniteProducts: publicProcedure

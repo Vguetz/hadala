@@ -6,12 +6,11 @@ import { cn } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import Link from 'next/link'
 import Image from 'next/image'
-import { query } from 'express'
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchResults, setSearchResults] = useState<
-    { id: string; name: string }[]
+    { id: string; name: string; images: string[] }[]
   >([])
   const [openSearchResults, setOpenSearchResults] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -21,7 +20,19 @@ const SearchBar = () => {
   })
 
   useEffect(() => {
-    setSearchResults(queryResults || [])
+    if (queryResults) {
+      setSearchResults(
+        queryResults.map((result) => ({
+          id: result.id,
+          name: result.name,
+          images: result.images
+            .map(({ image }) => (typeof image === 'string' ? image : image.url))
+            .filter(Boolean) as string[]
+        }))
+      )
+    } else {
+      setSearchResults([])
+    }
   }, [queryResults])
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +55,6 @@ const SearchBar = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-  const queryImage = queryResults?.map((result) => result.image?.[0])
 
   return (
     <div className='p-2 flex transition-all ease-out 0.5 my-auto'>
@@ -75,7 +85,7 @@ const SearchBar = () => {
             <div
               className={cn(
                 'bg-white shadow-lg border-b border-gray-50 absolute p-2 my-1',
-                searchTerm.length > 0 ? 'block max-w-[182px]' : 'hidden'
+                searchTerm.length > 0 ? 'block ' : 'hidden'
               )}
             >
               <div className=''>
@@ -84,12 +94,20 @@ const SearchBar = () => {
                     <p className='underline'>Resultados de la búsqueda</p>
                   </div>
                   <div className='flex flex-col'>
-                    {/* Mostrar los resultados de búsqueda */}
                     {searchResults.map((result, index) => (
                       <Link href={`/products/${result.id}`} key={index}>
-                        <p className='hover:text-blue-500 hover:underline'>
-                          {result.name}
-                        </p>
+                        <div className='flex items-center space-x-2'>
+                          <Image
+                            src={result.images[0]}
+                            alt={result.name}
+                            className='rounded-md'
+                            width={80}
+                            height={80}
+                          />
+                          <p className='hover:text-blue-500 hover:underline'>
+                            {result.name}
+                          </p>
+                        </div>
                       </Link>
                     ))}
                     {queryResults?.length === 0 && (
