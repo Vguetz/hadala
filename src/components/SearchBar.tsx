@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Separator } from './ui/separator'
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -14,6 +15,7 @@ const SearchBar = () => {
   >([])
   const [openSearchResults, setOpenSearchResults] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const searchResultsRef = useRef<HTMLDivElement>(null)
 
   const { data: queryResults, isLoading } = trpc.getSearchBarProducts.useQuery({
     query: searchTerm
@@ -43,7 +45,9 @@ const SearchBar = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
+        !inputRef.current.contains(event.target as Node) &&
+        searchResultsRef.current &&
+        !searchResultsRef.current.contains(event.target as Node)
       ) {
         setOpenSearchResults(false)
       }
@@ -83,9 +87,10 @@ const SearchBar = () => {
         <div className='mx-auto flex transition-all ease-out 0.5'>
           {openSearchResults && searchTerm.length > 0 && (
             <div
+              ref={searchResultsRef}
               className={cn(
                 'bg-white shadow-lg border-b border-gray-50 absolute p-2 my-1',
-                searchTerm.length > 0 ? 'block ' : 'hidden'
+                searchTerm.length > 0 ? 'block' : 'hidden'
               )}
             >
               <div className=''>
@@ -94,21 +99,29 @@ const SearchBar = () => {
                     <p className='underline'>Resultados de la búsqueda</p>
                   </div>
                   <div className='flex flex-col'>
+                    {/* Mostrar los resultados de búsqueda */}
                     {searchResults.map((result, index) => (
-                      <Link href={`/products/${result.id}`} key={index}>
-                        <div className='flex items-center space-x-2'>
+                      <div>
+                        <Link
+                          href={`/products/${result.id}`}
+                          key={index}
+                          className='flex items-center space-x-2'
+                        >
                           <Image
                             src={result.images[0]}
                             alt={result.name}
-                            className='rounded-md'
+                            className='rounded-md my-2'
                             width={80}
                             height={80}
                           />
                           <p className='hover:text-blue-500 hover:underline'>
                             {result.name}
                           </p>
-                        </div>
-                      </Link>
+                        </Link>
+                        {index !== searchResults.length - 1 && (
+                          <Separator key={index} />
+                        )}
+                      </div>
                     ))}
                     {queryResults?.length === 0 && (
                       <p className='text-sm text-gray-700'>
