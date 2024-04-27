@@ -3,77 +3,48 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Input } from './ui/input'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import {
-  redirect,
-  usePathname,
-  useRouter,
-  useSearchParams
-} from 'next/navigation'
+import { trpc } from '@/trpc/client'
 import Link from 'next/link'
+import Image from 'next/image'
+import { query } from 'express'
 
-interface SearchResultsProps {
-  searchTerm: string
-}
-
-const SearchBar: React.FC = () => {
+const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [searchResults, setSearchResults] = useState<
+    { id: string; name: string }[]
+  >([])
   const [openSearchResults, setOpenSearchResults] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const { replace } = useRouter()
+
+  const { data: queryResults, isLoading } = trpc.getSearchBarProducts.useQuery({
+    query: searchTerm
+  })
 
   useEffect(() => {
-    if (openSearchResults && inputRef.current) {
-      inputRef.current.focus()
-    }
+    setSearchResults(queryResults || [])
+  }, [queryResults])
 
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
         setOpenSearchResults(false)
       }
     }
 
-    document.addEventListener('keydown', handleEsc)
-
-    return () => {
-      document.removeEventListener('keydown', handleEsc)
-    }
-  }, [openSearchResults])
-
-  useEffect(() => {
-    if (openSearchResults) {
-      document.addEventListener('mousedown', handleClickOutside)
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    document.addEventListener('mousedown', handleClickOutside)
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [openSearchResults])
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-    handleSearchResults(event.target.value)
-  }
-
-  const handleSearchResults = (searchTerm: string) => {
-    const params = new URLSearchParams(searchParams)
-    if (searchTerm) {
-      params.set('query', searchTerm)
-    } else {
-      params.delete('query')
-    }
-    replace(`${pathname}?${params.toString()}`)
-    redirect(`/search/${searchTerm}`)
-  }
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-      setOpenSearchResults(false)
-    }
-  }
+  }, [])
+  const queryImage = queryResults?.map((result) => result.image?.[0])
 
   return (
     <div className='p-2 flex transition-all ease-out 0.5 my-auto'>
@@ -113,12 +84,19 @@ const SearchBar: React.FC = () => {
                     <p className='underline'>Resultados de la búsqueda</p>
                   </div>
                   <div className='flex flex-col'>
-                    <Link
-                      href={`/search/${searchTerm}`}
-                      className='flex flex-col'
-                    >
-                      {searchTerm}
-                    </Link>
+                    {/* Mostrar los resultados de búsqueda */}
+                    {searchResults.map((result, index) => (
+                      <Link href={`/products/${result.id}`} key={index}>
+                        <p className='hover:text-blue-500 hover:underline'>
+                          {result.name}
+                        </p>
+                      </Link>
+                    ))}
+                    {queryResults?.length === 0 && (
+                      <p className='text-sm text-gray-700'>
+                        No se encontraron resultados
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

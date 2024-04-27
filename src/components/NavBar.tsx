@@ -25,7 +25,7 @@ const Navbar = async () => {
 
               <div className='ml-4 flex lg:ml-0'>
                 <Link href='/'>
-                  <Icons.logo className='h-48 w-48 lg:mx-auto lg:my-auto lg:items-center transition-all hover:scale-110' />
+                  <Icons.logo className='w-48 lg:mx-auto p-0  lg:items-center transition-all  hover:scale-110' />
                 </Link>
               </div>
 

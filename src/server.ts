@@ -29,6 +29,19 @@ const start = async () => {
     '/api/trpc',
     trpcExpress.createExpressMiddleware({ router: appRouter, createContext })
   )
+  app.use('/api/search', async (req, res) => {
+    const { query } = req.query
+    const payload = await getPayloadClient()
+    const searchResults = await payload.find({
+      collection: 'products',
+      where: {
+        name: {
+          contains: query
+        }
+      }
+    })
+    res.json(searchResults)
+  })
 
   app.use((req, res) => nextHandler(req, res))
 

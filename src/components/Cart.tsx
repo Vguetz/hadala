@@ -86,7 +86,7 @@ const Cart = () => {
           <>
             <div className='border-gray-700 border p-4 m-4'>
               <h3 className='text-sm font-semibold text-gray-700 flex'>
-                <Truck className='flex w-12' />
+                <Truck className='flex w-12 text-muted-foreground' />
                 Envío gratis en ordenes +$3000
               </h3>
               <Progress

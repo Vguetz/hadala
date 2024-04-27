@@ -7,6 +7,32 @@ import { getPayloadClient } from '../get-payload'
 export const appRouter = router({
   auth: authRouter,
 
+  getSearchBarProducts: publicProcedure
+    .input(
+      z.object({
+        query: z.string()
+      })
+    )
+    .query(async ({ input }) => {
+      const { query } = input
+
+      const payload = await getPayloadClient()
+
+      const { docs: products } = await payload.find({
+        collection: 'products',
+        where: {
+          name: {
+            contains: query
+          }
+        }
+      })
+
+      return products.map((product) => ({
+        id: product.id,
+        name: product.name
+      }))
+    }),
+
   getInfiniteProducts: publicProcedure
     .input(
       z.object({
