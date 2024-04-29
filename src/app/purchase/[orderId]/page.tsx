@@ -1,7 +1,5 @@
-import { buttonVariants } from '@/components/ui/button'
 import { getPayloadClient } from '@/get-payload'
 import { Loader2 } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 

@@ -61,6 +61,16 @@ export const Payments: CollectionConfig = {
       type: 'text',
       required: true,
       defaultValue: () => Math.random().toString(36).substring(2, 10)
+    },
+    {
+      name: 'transferencia',
+      type: 'checkbox',
+      required: false
+    },
+    {
+      name: 'transferId',
+      type: 'text',
+      required: false
     }
   ]
 }

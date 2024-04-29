@@ -6,7 +6,7 @@ import useEmail from '@/hooks/use-email'
 import { getLocalStorage } from '@/lib/utils'
 import { payMercadoPago } from '@/trpc/payment-router'
 import { Loader2 } from 'lucide-react'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const Page = () => {
   const randomId = () => Math.random().toString(36).substring(2, 10)

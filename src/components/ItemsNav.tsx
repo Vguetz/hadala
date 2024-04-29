@@ -54,7 +54,7 @@ const SubMenu = ({
 
         {items.map((item, index) => (
           <Link
-            href={`/products?category=${item === 'Ver Todo' ? title : title + item}`}
+            href={`/products?category=${item === 'Ver Todos' || 'Ver Todas' || `Ver ${title}` ? title : title + item}`}
             key={title}
           >
             <AccordionContent className={className} key={index}>
@@ -69,12 +69,15 @@ const SubMenu = ({
 
 const ItemsNav = () => {
   const subLinks = {
-    Mochilas: ['Únicas', 'Lisas', 'Ver Todo'],
-    Billeteras: ['Únicas', 'Lisas', 'Ver Todo'],
-    Bolsos: ['Únicos', 'Lisos', 'Ver Todo'],
-    Monederos: ['Únicos', 'Lisos', 'Ver Todo'],
-    Riñoneras: ['Únicas', 'Lisas', 'Ver Todo'],
-    Carteras: ['Únicas', 'Lisas', 'Ver Todo']
+    Bandoleras: ['Ver Bandoleras'],
+    Billeteras: ['Merlina', 'Titana', 'Ver Todas'],
+    Bolsos: ['Benito', 'Liso', 'Alma', 'Ver Todos'],
+    Carteras: ['Chicas', 'Grandes', 'Ver Todas'],
+    Materas: ['Ver Materas'],
+    Mochilas: ['Canguro', 'Con tapa', 'Venusina', 'Ver Todo'],
+    Monederos: ['Ver Monederos'],
+    Morrales: ['Ver Morrales'],
+    Riñoneras: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana', 'Ver Todas']
   }
 
   return (

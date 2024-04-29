@@ -1,4 +1,3 @@
-import { PRODUCT_CATEGORIES } from '../../config'
 import { CollectionConfig } from 'payload/types'
 
 export const Productos: CollectionConfig = {
@@ -39,24 +38,51 @@ export const Productos: CollectionConfig = {
     },
     {
       name: 'category',
-      label: 'Categoria',
+      label: 'Categoría',
       type: 'select',
       options: [
-        'Mochilas',
+        'Bandoleras',
         'Billeteras',
-        'Riñoneras',
         'Bolsos',
         'Carteras',
-        'Monederos'
+        'Materas',
+        'Mochilas',
+        'Monederos',
+        'Morrales',
+        'Riñoneras'
       ],
+      required: true,
+      hooks: {
+        beforeChange: [
+          async ({ data }) => {
+            if (data?.category === 'Billeteras') {
+              data.subcategoria = 'Merlina'
+            } else if (data?.category === 'Bolsos') {
+              data.subcategoria = 'Benito'
+            } else if (data?.category === 'Carteras') {
+              data.subcategoria = 'Chicas'
+            } else if (data?.category === 'Mochilas') {
+              data.subcategoria = 'Canguro'
+            } else if (data?.category === 'Riñoneras') {
+              data.subcategoria = 'Aine'
+            } else {
+              data!.subcategoria = 'Selecciona una categoría primero'
+            }
+          }
+        ]
+      }
+    },
+    {
+      name: 'subcategoria',
+      label: 'Subcategoría',
+      type: 'select',
+      options: ['Selecciona una categoría primero'],
       required: true
     },
-
     {
       name: 'product_files',
       label: 'Archivos del producto',
       type: 'relationship',
-      required: true,
       relationTo: 'product_files',
       admin: {
         hidden: true
@@ -74,22 +100,10 @@ export const Productos: CollectionConfig = {
         update: ({ req }) => req.user.role === 'admin'
       },
       options: [
-        {
-          label: 'Pendiente',
-          value: 'pending'
-        },
-        {
-          label: 'Aprobado',
-          value: 'approved'
-        },
-        {
-          label: 'Rechazado',
-          value: 'denied'
-        },
-        {
-          label: 'Agotado',
-          value: 'sold-out'
-        }
+        { label: 'Pendiente', value: 'pending' },
+        { label: 'Aprobado', value: 'approved' },
+        { label: 'Rechazado', value: 'denied' },
+        { label: 'Agotado', value: 'sold-out' }
       ]
     },
     {

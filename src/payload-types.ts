@@ -166,6 +166,8 @@ export interface Pago {
   producto: string;
   dinero: number;
   orderId: string;
+  transferencia?: boolean | null;
+  transferId?: string | null;
   updatedAt: string;
   createdAt: string;
 }

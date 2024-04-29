@@ -42,6 +42,13 @@ export async function payMercadoPago(
         address: {
           street_name: direccion
         }
+      },
+      payment_methods: {
+        excluded_payment_types: [
+          {
+            id: 'ticket'
+          }
+        ]
       }
     }
   })
