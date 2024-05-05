@@ -48,7 +48,7 @@ const NavItems = () => {
             category={category}
             handleOpen={handleOpen}
             isOpen={isOpen}
-            key={category.value}
+            key={category.category}
             isAnyOpen={isAnyOpen}
           />
         )

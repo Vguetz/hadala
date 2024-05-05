@@ -54,8 +54,12 @@ const SubMenu = ({
 
         {items.map((item, index) => (
           <Link
-            href={`/products?category=${item === 'Ver Todos' || 'Ver Todas' || `Ver ${title}` ? title : title + item}`}
-            key={title}
+            href={
+              item.startsWith('Ver ')
+                ? `/products?category=${title}`
+                : `/products?category=${title}&subcategory=${item.replace(' ', '+')}`
+            }
+            key={index}
           >
             <AccordionContent className={className} key={index}>
               <SubMenuItem title={item} className={className} />

@@ -44,8 +44,6 @@ const yourOwnAndPurchased: Access = async ({ req }) => {
           )
 
         return typeof products.product_files === 'string'
-          ? products.product_files
-          : products.product_files.id
       })
     })
     .filter(Boolean)

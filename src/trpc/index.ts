@@ -26,7 +26,7 @@ export const appRouter = router({
 
       // Llama a payload.find() con el tipo especificado
       const { docs: products } = await payload.find({
-        collection: 'products', // Asegúrate de que la colección sea "products"
+        collection: 'products',
         where: {
           name: {
             contains: query
@@ -47,17 +47,27 @@ export const appRouter = router({
     )
     .query(async ({ input }) => {
       const { query, cursor } = input
-      const { sort, limit, ...queryOpts } = query
+      const { sort, limit, category, subcategory } = query
 
       const payload = await getPayloadClient()
 
-      const parsedQueryOpts: Record<string, { equals: string }> = {}
-
-      Object.entries(queryOpts).forEach(([key, value]) => {
-        parsedQueryOpts[key] = {
-          equals: value
+      const whereClause: Record<string, any> = {
+        approvedForSale: {
+          equals: 'approved'
         }
-      })
+      }
+
+      if (category) {
+        whereClause.category = {
+          equals: category
+        }
+      }
+
+      if (subcategory) {
+        whereClause.subcategory = {
+          equals: subcategory
+        }
+      }
 
       const page = cursor || 1
 
@@ -67,12 +77,7 @@ export const appRouter = router({
         nextPage
       } = await payload.find({
         collection: 'products',
-        where: {
-          approvedForSale: {
-            equals: 'approved'
-          },
-          ...parsedQueryOpts
-        },
+        where: whereClause,
         sort,
         depth: 1,
         limit,

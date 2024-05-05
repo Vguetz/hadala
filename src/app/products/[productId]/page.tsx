@@ -99,7 +99,7 @@ const Page = async ({ params }: PageProps) => {
                   {formatPrice(product.price)}
                 </p>
                 <div className='ml-4 border-l text-muted-foreground border-gray-300 pl-4'>
-                  {label}
+                  {label + ' ' + product.subcategoria}
                 </div>
               </div>
 

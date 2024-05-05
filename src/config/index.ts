@@ -1,32 +1,56 @@
 export const PRODUCT_CATEGORIES = [
   {
-    name: 'Mochilas',
-    category: 'Mochilas',
-    href: `/products?category=Mochilas`
+    name: 'Bandoleras',
+    subcategories: [],
+    category: 'Bandoleras',
+    slug: 'bandoleras'
   },
   {
     name: 'Billeteras',
+    subcategories: ['Merlina', 'Titana'],
     category: 'Billeteras',
-    href: `/products?category=Billeteras`
-  },
-  {
-    name: 'Riñoneras',
-    category: 'Riñoneras',
-    href: '/products?category=Riñoneras'
+    slug: 'billeteras'
   },
   {
     name: 'Bolsos',
+    subcategories: ['Benito', 'Liso', 'Alma'],
     category: 'Bolsos',
-    href: '/products?category=Bolsos'
+    slug: 'bolsos'
   },
   {
     name: 'Carteras',
+    subcategories: ['Chicas', 'Grandes'],
     category: 'Carteras',
-    href: '/products?category=Carteras'
+    slug: 'carteras'
+  },
+  {
+    name: 'Materas',
+    subcategories: [],
+    category: 'Materas',
+    slug: 'materas'
+  },
+  {
+    name: 'Mochilas',
+    subcategories: ['Canguro', 'Con tapa', 'Venusina'],
+    category: 'Mochilas',
+    slug: 'mochilas'
   },
   {
     name: 'Monederos',
+    subcategories: [],
     category: 'Monederos',
-    href: '/products?category=Monederos'
+    slug: 'monederos'
+  },
+  {
+    name: 'Morrales',
+    subcategories: [],
+    category: 'Morrales',
+    slug: 'morrales'
+  },
+  {
+    name: 'Riñoneras',
+    subcategories: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana'],
+    category: 'Riñoneras',
+    slug: 'riñoneras'
   }
 ]

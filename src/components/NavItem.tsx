@@ -23,7 +23,7 @@ const NavItem = ({ isAnyOpen, category, handleOpen, isOpen }: NavItemProps) => {
           onClick={handleOpen}
           className='gap-1.5'
         >
-          <p className='ml-2 text-lg font-light'>{category.label}</p>
+          <p className='ml-2 text-lg font-light'>{category.category}</p>
           <ChevronDown
             className={cn('h-5 w-5  transition-all text-muted-foreground', {
               '-rotate-180': isOpen

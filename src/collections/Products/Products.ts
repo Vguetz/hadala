@@ -1,5 +1,17 @@
 import { CollectionConfig } from 'payload/types'
 
+const categories = {
+  Billeteras: ['Merlina', 'Titana'],
+  Bolsos: ['Benito', 'Liso', 'Alma'],
+  Carteras: ['Chicas', 'Grandes'],
+  Mochilas: ['Canguro', 'Con tapa', 'Venusina'],
+  Riñoneras: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana']
+}
+
+const isSubCategorie = (category: string) => {
+  return Object.keys(categories).includes(category)
+}
+
 export const Productos: CollectionConfig = {
   slug: 'products',
   admin: {
@@ -51,33 +63,30 @@ export const Productos: CollectionConfig = {
         'Morrales',
         'Riñoneras'
       ],
-      required: true,
-      hooks: {
-        beforeChange: [
-          async ({ data }) => {
-            if (data?.category === 'Billeteras') {
-              data.subcategoria = 'Merlina'
-            } else if (data?.category === 'Bolsos') {
-              data.subcategoria = 'Benito'
-            } else if (data?.category === 'Carteras') {
-              data.subcategoria = 'Chicas'
-            } else if (data?.category === 'Mochilas') {
-              data.subcategoria = 'Canguro'
-            } else if (data?.category === 'Riñoneras') {
-              data.subcategoria = 'Aine'
-            } else {
-              data!.subcategoria = 'Selecciona una categoría primero'
-            }
-          }
-        ]
-      }
+      required: true
     },
     {
-      name: 'subcategoria',
+      name: 'subcategory',
       label: 'Subcategoría',
       type: 'select',
-      options: ['Selecciona una categoría primero'],
-      required: true
+      options: [
+        'Merlina',
+        'Titana',
+        'Benito',
+        'Liso',
+        'Alma',
+        'Chicas',
+        'Grandes',
+        'Canguro',
+        'Con tapa',
+        'Venusina',
+        'Aine',
+        'Clarck',
+        'Clásica',
+        'Liana',
+        'Triana'
+      ],
+      required: false
     },
     {
       name: 'product_files',

@@ -50,8 +50,36 @@ export interface Product {
   name: string;
   description?: string | null;
   price: number;
-  category: 'Mochilas' | 'Billeteras' | 'Riñoneras' | 'Bolsos' | 'Carteras' | 'Monederos';
-  product_files: string | ProductFile;
+  category:
+    | 'Bandoleras'
+    | 'Billeteras'
+    | 'Bolsos'
+    | 'Carteras'
+    | 'Materas'
+    | 'Mochilas'
+    | 'Monederos'
+    | 'Morrales'
+    | 'Riñoneras';
+  subcategory?:
+    | (
+        | 'Merlina'
+        | 'Titana'
+        | 'Benito'
+        | 'Liso'
+        | 'Alma'
+        | 'Chicas'
+        | 'Grandes'
+        | 'Canguro'
+        | 'Con tapa'
+        | 'Venusina'
+        | 'Aine'
+        | 'Clarck'
+        | 'Clásica'
+        | 'Liana'
+        | 'Triana'
+      )
+    | null;
+  product_files?: (string | null) | ProductFile;
   approvedForSale?: ('pending' | 'approved' | 'denied' | 'sold-out') | null;
   priceId?: string | null;
   mercadoPagoId?: string | null;
