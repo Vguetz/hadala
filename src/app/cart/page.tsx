@@ -10,16 +10,33 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import useEmail from '@/hooks/use-email'
-import e from 'express'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
-import { set } from 'zod'
 import { Icons } from '@/components/Icons'
 import usePhone from '@/hooks/use-phone'
 
 require('dotenv').config()
 
 const Page = () => {
+  const generateRandomTransferenceId = () => {
+    localStorage.setItem(
+      'transferenceId',
+      Math.random().toString(36).substring(2, 10)
+    )
+  }
+
+  useEffect(() => {
+    const props = {
+      email: localStorage.getItem('email'),
+      phone: localStorage.getItem('phone'),
+      name: localStorage.getItem('name'),
+      address: localStorage.getItem('direccion'),
+      cartTotal: localStorage.getItem('cartTotal'),
+      items: localStorage.getItem('cartItems')
+    }
+    localStorage.setItem('props', JSON.stringify(props))
+  }, [])
+
   useEffect(() => {
     let storageEmail
     // Get the value from local storage if it exists
@@ -37,6 +54,7 @@ const Page = () => {
     (total, { product }) => total + product.price,
     0
   )
+
   const [email, setEmail] = useEmail()
   const [phone, isValidPhone, handlePhoneChange] = usePhone()
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,6 +80,7 @@ const Page = () => {
       setRadioGroupValue('mercadopago')
     } else if (value === 'transferencia') {
       setMercadoPago(false)
+      generateRandomTransferenceId()
       setRadioGroupValue('transferencia')
     } else {
       setMercadoPago(true)
@@ -333,8 +352,26 @@ const Page = () => {
                       ></Input>
                       <Link
                         href={
-                          mercadoPago === true ? '/checkout' : '/transferencia'
+                          mercadoPago === true ? '/checkout' : `/transferencia`
                         }
+                        onClick={() => {
+                          // Guarda los datos relevantes en localStorage
+                          const itemsData = items.map(({ product }) => ({
+                            name: product.name,
+                            price: product.price,
+                            image: product.images[0]
+                          }))
+                          const props = {
+                            email: email,
+                            phone: phone,
+                            name: name,
+                            transferId: localStorage.getItem('transferenceId'),
+                            address: address,
+                            cartTotal: cartTotal,
+                            items: itemsData
+                          }
+                          localStorage.setItem('props', JSON.stringify(props))
+                        }}
                         className={cn(
                           buttonVariants({
                             variant: 'default',

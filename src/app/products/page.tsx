@@ -26,6 +26,7 @@ const ProductsPage = ({ searchParams }: ProductsPageProps) => {
 
   return (
     <MaxWidthWrapper>
+      {/* Product */}
       <ProductReel
         title={
           categoryLabel

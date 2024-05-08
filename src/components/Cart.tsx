@@ -64,8 +64,8 @@ const Cart = () => {
         <SheetHeader className='space-y-2.5 pr-6'>
           <SheetTitle>Carrito ({itemCount})</SheetTitle>
         </SheetHeader>
-
-        {cartTotal < 3000 ? (
+        {/* Cart Free Shipping (NOT USED YET) */}
+        {/* {cartTotal < 3000 ? (
           <>
             <div className='border-gray-700 border p-4 m-4'>
               <h3 className='text-sm font-semibold text-gray-700 flex'>
@@ -97,7 +97,7 @@ const Cart = () => {
               <p>¡Felicidades! ¡Tu envío es GRATIS!</p>
             </div>
           </>
-        )}
+        )} */}
         {itemCount > 0 ? (
           <>
             <div className='flex w-full flex-col pr-6'>

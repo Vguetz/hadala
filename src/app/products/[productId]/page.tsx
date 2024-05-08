@@ -57,6 +57,8 @@ const Page = async ({ params }: PageProps) => {
     .map(({ image }) => (typeof image === 'string' ? image : image.url))
     .filter(Boolean) as string[]
 
+  const labelSubcategory = product.subcategory || ''
+
   return (
     <MaxWidthWrapper className='bg-white'>
       <div className='bg-white'>
@@ -99,7 +101,7 @@ const Page = async ({ params }: PageProps) => {
                   {formatPrice(product.price)}
                 </p>
                 <div className='ml-4 border-l text-muted-foreground border-gray-300 pl-4'>
-                  {label + ' ' + product.subcategoria}
+                  {label! + ' ' + labelSubcategory}
                 </div>
               </div>
 
@@ -114,7 +116,11 @@ const Page = async ({ params }: PageProps) => {
                   aria-hidden='true'
                   className='h-5 w-5 flex-shrink-0 text-green-500'
                 />
-                <p className='ml-2 text-sm text-muted-foreground'>En stock</p>
+                <p className='ml-2 text-sm text-muted-foreground'>
+                  {product.description === 'Diseño Único'
+                    ? 'Consultar stock'
+                    : 'En stock'}
+                </p>
               </div>
             </section>
           </div>
