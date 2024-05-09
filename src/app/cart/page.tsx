@@ -358,8 +358,7 @@ const Page = () => {
                           // Guarda los datos relevantes en localStorage
                           const itemsData = items.map(({ product }) => ({
                             name: product.name,
-                            price: product.price,
-                            image: product.images[0]
+                            price: product.price
                           }))
                           const props = {
                             email: email,
@@ -371,6 +370,27 @@ const Page = () => {
                             items: itemsData
                           }
                           localStorage.setItem('props', JSON.stringify(props))
+                          if (mercadoPago === false) {
+                            const sendDataToTransference = async () => {
+                              await fetch(`/api/transferencia`, {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                  email: email,
+                                  phone: phone,
+                                  name: name,
+                                  address: address,
+                                  cartTotal: cartTotal,
+                                  items: itemsData,
+                                  transferId:
+                                    localStorage.getItem('transferenceId')
+                                })
+                              })
+                            }
+                            return sendDataToTransference()
+                          }
                         }}
                         className={cn(
                           buttonVariants({

@@ -15,6 +15,7 @@ export interface Config {
     orders: Order;
     admins: Admin;
     Pagos: Pago;
+    Transferencias: Transferencia;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -195,6 +196,26 @@ export interface Pago {
   dinero: number;
   orderId: string;
   transferencia?: boolean | null;
+  transferId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Transferencias".
+ */
+export interface Transferencia {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  items: {
+    name: string;
+    price: number;
+    id?: string | null;
+  }[];
+  monto: number;
   transferId?: string | null;
   updatedAt: string;
   createdAt: string;
