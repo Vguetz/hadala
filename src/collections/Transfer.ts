@@ -38,32 +38,6 @@ export const Transfer: CollectionConfig = {
       required: true
     },
     {
-      name: 'items',
-      label: 'Items',
-      type: 'array',
-      required: true,
-      labels: {
-        singular: 'Item',
-        plural: 'Items'
-      },
-      fields: [
-        {
-          name: 'name',
-          label: 'Nombre',
-          type: 'text',
-          required: true
-        },
-        {
-          name: 'price',
-          label: 'Precio',
-          type: 'number',
-          min: 0,
-          max: 100000,
-          required: true
-        }
-      ]
-    },
-    {
       name: 'monto',
       label: 'Monto en pesos uruguayos',
       type: 'number',

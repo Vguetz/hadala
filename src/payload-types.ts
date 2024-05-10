@@ -16,6 +16,7 @@ export interface Config {
     admins: Admin;
     Pagos: Pago;
     Transferencias: Transferencia;
+    TransferenciasTest: TransferenciasTest;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -210,13 +211,21 @@ export interface Transferencia {
   email: string;
   phone: string;
   address: string;
-  items: {
-    name: string;
-    price: number;
-    id?: string | null;
-  }[];
   monto: number;
   transferId?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TransferenciasTest".
+ */
+export interface TransferenciasTest {
+  id: string;
+  transferId: string;
+  email: string;
+  cartTotal: number;
+  isTransfered?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }

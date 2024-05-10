@@ -13,6 +13,7 @@ import { Orders } from './collections/Orders'
 import { Admins } from './collections/Admins'
 import { Payments } from './collections/Payments'
 import { Transfer } from './collections/Transfer'
+import { TransferTest } from './collections/TransferTest'
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env')
@@ -27,7 +28,8 @@ export default buildConfig({
     Orders,
     Admins,
     Payments,
-    Transfer
+    Transfer,
+    TransferTest
   ],
   routes: {
     admin: '/sell'

@@ -7,6 +7,34 @@ import { getPayloadClient } from '../get-payload'
 export const appRouter = router({
   auth: authRouter,
 
+  saveClientInfo: publicProcedure
+    .input(
+      z.object({
+        transferId: z.string(),
+        email: z.string().email(),
+        cartTotal: z.number().min(0).max(100000)
+      })
+    )
+    .mutation(async ({ input }) => {
+      const payload = await getPayloadClient()
+
+      try {
+        const result = await payload.create({
+          collection: 'TransferenciasTest',
+          data: {
+            transferId: input.transferId,
+            email: input.email,
+            cartTotal: input.cartTotal
+          }
+        })
+        console.log(result)
+        return result
+      } catch (error) {
+        console.error('Error saving client info:', error)
+        throw new Error('An error occurred while saving client info')
+      }
+    }),
+
   getSearchBarProducts: publicProcedure
     .input(
       z.object({
@@ -21,7 +49,7 @@ export const appRouter = router({
       type Product = {
         id: string
         name: string
-        images: { image: string }[] // Esta es una suposición, ajusta según la estructura real de tus datos
+        images: { image: string }[]
       }
 
       // Llama a payload.find() con el tipo especificado

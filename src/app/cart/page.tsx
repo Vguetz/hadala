@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { PRODUCT_CATEGORIES } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import { cn, formatPrice } from '@/lib/utils'
-import { Loader2, X } from 'lucide-react'
+import { Divide, Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
@@ -14,27 +14,35 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
 import { Icons } from '@/components/Icons'
 import usePhone from '@/hooks/use-phone'
+import { trpc } from '@/trpc/client'
 
 require('dotenv').config()
 
-const Page = () => {
-  const generateRandomTransferenceId = () => {
-    localStorage.setItem(
-      'transferenceId',
-      Math.random().toString(36).substring(2, 10)
-    )
-  }
+interface ClientInfo {
+  transferId: string
+  email: string
+  cartTotal: number
+}
 
+const Page = () => {
+  const randomIdGenerator = () => {
+    return Math.floor(Math.random() * 100000).toString()
+  }
+  const [props, setProps] = useState<ClientInfo>({
+    transferId: randomIdGenerator(),
+    email: '',
+    cartTotal: 0
+  })
   useEffect(() => {
-    const props = {
-      email: localStorage.getItem('email'),
-      phone: localStorage.getItem('phone'),
-      name: localStorage.getItem('name'),
-      address: localStorage.getItem('direccion'),
-      cartTotal: localStorage.getItem('cartTotal'),
-      items: localStorage.getItem('cartItems')
+    // Retrieve data from localStorage and update props
+    const storedProps = {
+      transferId: randomIdGenerator(),
+      email: localStorage.getItem('email') || '',
+      cartTotal: parseFloat(localStorage.getItem('cartTotal') || '0')
     }
-    localStorage.setItem('props', JSON.stringify(props))
+    setProps({
+      ...storedProps
+    })
   }, [])
 
   useEffect(() => {
@@ -80,7 +88,6 @@ const Page = () => {
       setRadioGroupValue('mercadopago')
     } else if (value === 'transferencia') {
       setMercadoPago(false)
-      generateRandomTransferenceId()
       setRadioGroupValue('transferencia')
     } else {
       setMercadoPago(true)
@@ -104,6 +111,22 @@ const Page = () => {
     localStorage.setItem('name', name)
     localStorage.setItem('direccion', address)
   }, [name, phone, address])
+
+  const { mutate: transferDataSubmit } = trpc.saveClientInfo.useMutation({
+    onSuccess: () => {
+      localStorage.setItem('transferData', JSON.stringify(props))
+      console.log('Transferencia exitosa')
+      window.location.href = `/transferencia/${props.transferId}`
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
+
+  const onSubmit = () => {
+    transferDataSubmit(props)
+  }
+
   return (
     <div className='bg-white'>
       <div className='mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
@@ -318,8 +341,8 @@ const Page = () => {
                   <div className='p-2 m-2 text-center'></div>
 
                   {isMounted || items.length > 0 || email != '' ? (
-                    <form onSubmit={(e) => e.preventDefault()}>
-                      <div>
+                    <form>
+                      <div className='transition-all ease-out'>
                         <p className='md:flex'>Forma de pago:</p>
                         <div className='mt-2 space-x-4'>
                           <RadioGroup defaultValue=''>
@@ -350,62 +373,48 @@ const Page = () => {
                         disabled
                         className='hidden text-lg font-medium px-4 text-gray-900 bg-transparent border-none w-full cursor-not-allowed opacity-100'
                       ></Input>
-                      <Link
-                        href={
-                          mercadoPago === true ? '/checkout' : `/transferencia`
-                        }
-                        onClick={() => {
-                          // Guarda los datos relevantes en localStorage
-                          const itemsData = items.map(({ product }) => ({
-                            name: product.name,
-                            price: product.price
-                          }))
-                          const props = {
-                            email: email,
-                            phone: phone,
-                            name: name,
-                            transferId: localStorage.getItem('transferenceId'),
-                            address: address,
-                            cartTotal: cartTotal,
-                            items: itemsData
-                          }
-                          localStorage.setItem('props', JSON.stringify(props))
-                          if (mercadoPago === false) {
-                            const sendDataToTransference = async () => {
-                              await fetch(`/api/transferencia`, {
-                                method: 'POST',
-                                headers: {
-                                  'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                  email: email,
-                                  phone: phone,
-                                  name: name,
-                                  address: address,
-                                  cartTotal: cartTotal,
-                                  items: itemsData,
-                                  transferId:
-                                    localStorage.getItem('transferenceId')
-                                })
-                              })
-                            }
-                            return sendDataToTransference()
-                          }
-                        }}
-                        className={cn(
-                          buttonVariants({
-                            variant: 'default',
-                            className: 'w-full mt-4'
-                          }),
-                          'transition-colors duration-300',
-                          {
-                            'pointer-events-none opacity-50':
-                              !isValidEmail || !isValidPhone || !radioGroupValue
-                          }
+                      <div>
+                        {mercadoPago === true ? (
+                          <Link
+                            href={'/checkout'}
+                            className={cn(
+                              buttonVariants({
+                                variant: 'default',
+                                className: 'w-full mt-4'
+                              }),
+                              'transition-colors duration-300',
+                              {
+                                'pointer-events-none opacity-50':
+                                  !isValidEmail ||
+                                  !isValidPhone ||
+                                  !radioGroupValue
+                              }
+                            )}
+                          >
+                            Finalizar Compra
+                          </Link>
+                        ) : (
+                          <Button
+                            type='button'
+                            onClick={onSubmit}
+                            className={cn(
+                              buttonVariants({
+                                variant: 'default',
+                                className: 'w-full mt-4'
+                              }),
+                              'transition-colors duration-300',
+                              {
+                                'pointer-events-none opacity-50':
+                                  !isValidEmail ||
+                                  !isValidPhone ||
+                                  !radioGroupValue
+                              }
+                            )}
+                          >
+                            Realizar Transferencia
+                          </Button>
                         )}
-                      >
-                        Finalizar Compra
-                      </Link>
+                      </div>
                     </form>
                   ) : (
                     <Loader2 className='h-5 w-5 animate-spin text-muted-foreground' />
