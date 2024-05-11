@@ -9,7 +9,7 @@ interface PageProps {
   }
 }
 
-export const Page = async ({ params }: PageProps) => {
+const Page = async ({ params }: PageProps) => {
   const payload = await getPayloadClient()
   const { orderId } = params
 
