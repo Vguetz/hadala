@@ -101,10 +101,9 @@ const SearchBar = () => {
                   <div className='flex flex-col'>
                     {/* Mostrar los resultados de búsqueda */}
                     {searchResults.map((result, index) => (
-                      <div>
+                      <div key={index}>
                         <Link
                           href={`/products/${result.id}`}
-                          key={index}
                           className='flex items-center space-x-2'
                         >
                           <Image

@@ -80,7 +80,7 @@ const TransferPage = async ({ params }: PageProps) => {
         <div>
           <p className='text-muted-foreground'>
             En caso de querer ver el estado de tu pedido, puedes entrar a este
-            mismo enlace y ver si el estado a cambiado a "Aceptado" o
+            mismo enlace y ver si el estado a cambiado a {'Aceptado'} o
             consultarnos a nuestro correo electronico.
           </p>
         </div>

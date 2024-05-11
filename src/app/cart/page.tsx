@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { PRODUCT_CATEGORIES } from '@/config'
 import { useCart } from '@/hooks/use-cart'
 import { cn, formatPrice } from '@/lib/utils'
-import { Divide, Loader2, X } from 'lucide-react'
+import { Loader2, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
@@ -26,7 +26,10 @@ interface ClientInfo {
 
 const Page = () => {
   const randomIdGenerator = () => {
-    return Math.floor(Math.random() * 100000).toString()
+    const minDigits = 10
+    const min = Math.pow(10, minDigits - 1)
+    const max = Math.pow(10, minDigits) - 1
+    return Math.floor(Math.random() * (max - min + 1) + min).toString()
   }
   const [props, setProps] = useState<ClientInfo>({
     transferId: randomIdGenerator(),
@@ -45,12 +48,6 @@ const Page = () => {
     })
   }, [])
 
-  useEffect(() => {
-    let storageEmail
-    // Get the value from local storage if it exists
-    storageEmail = localStorage.getItem('email') || ''
-    setEmail(storageEmail)
-  }, [])
   const { items, removeItem } = useCart()
   const [isMounted, setIsMounted] = useState<boolean>(false)
   const [name, setName] = useState<string>('')
@@ -64,6 +61,12 @@ const Page = () => {
   )
 
   const [email, setEmail] = useEmail()
+  useEffect(() => {
+    let storageEmail
+    // Get the value from local storage if it exists
+    storageEmail = localStorage.getItem('email') || ''
+    setEmail(storageEmail)
+  }, [email])
   const [phone, isValidPhone, handlePhoneChange] = usePhone()
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)
