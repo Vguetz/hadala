@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 
-export const Search = () => {
+const Search = () => {
   const location = useRouter()
 
   return (
