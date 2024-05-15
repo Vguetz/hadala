@@ -1,14 +1,17 @@
-const withImages = require('next-images')
-
-module.exports = withImages({
-  reactStrictMode: true,
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    disableStaticImages: true,
     remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost'
+      },
       {
         protocol: 'https',
         hostname: 'hadala-production.up.railway.app'
       }
     ]
   }
-})
+}
+
+module.exports = nextConfig

@@ -73,7 +73,10 @@ var app = (0, express_1.default)();
 var PORT = Number(process.env.PORT) || 3000;
 var createContext = function (_a) {
     var req = _a.req, res = _a.res;
-    return ({ req: req, res: res });
+    return ({
+        req: req,
+        res: res
+    });
 };
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     var payload;
@@ -84,7 +87,7 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                         express: app,
                         onInit: function (cms) { return __awaiter(void 0, void 0, void 0, function () {
                             return __generator(this, function (_a) {
-                                cms.logger.info("Admin URL ".concat(cms.getAdminURL()));
+                                cms.logger.info("Admin URL: ".concat(cms.getAdminURL()));
                                 return [2 /*return*/];
                             });
                         }); }
