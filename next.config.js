@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const withImage = require('next-images')
+import withImage from 'next-images'
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -15,5 +15,4 @@ const nextConfig = {
   }
 }
 
-module.exports = nextConfig
-module.exports = withImage()
+export default nextConfig(withImage())

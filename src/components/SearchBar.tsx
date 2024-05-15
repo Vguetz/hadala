@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useRef, useEffect } from 'react'
 import { Input } from './ui/input'
-import { Search } from 'lucide-react'
+import { Loader, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { trpc } from '@/trpc/client'
 import Link from 'next/link'
@@ -100,28 +100,37 @@ const SearchBar = () => {
                   </div>
                   <div className='flex flex-col'>
                     {/* Mostrar los resultados de búsqueda */}
-                    {searchResults.map((result, index) => (
-                      <div key={index}>
-                        <Link
-                          href={`/products/${result.id}`}
-                          className='flex items-center space-x-2'
-                        >
-                          <Image
-                            src={result.images[0]}
-                            alt={result.name}
-                            className='rounded-md my-2'
-                            width={80}
-                            height={80}
-                          />
-                          <p className='hover:text-blue-500 hover:underline'>
-                            {result.name}
-                          </p>
-                        </Link>
-                        {index !== searchResults.length - 1 && (
-                          <Separator key={index} />
-                        )}
+
+                    {isLoading ? (
+                      <div>
+                        <div>
+                          <Loader className='mx-auto animate-spin' />
+                        </div>
                       </div>
-                    ))}
+                    ) : (
+                      searchResults.map((result, index) => (
+                        <div key={index}>
+                          <Link
+                            href={`/products/${result.id}`}
+                            className='flex items-center space-x-2'
+                          >
+                            <Image
+                              src={result.images[0]}
+                              alt={result.name}
+                              className='rounded-md my-2'
+                              width={80}
+                              height={80}
+                            />
+                            <p className='hover:text-blue-500 hover:underline'>
+                              {result.name}
+                            </p>
+                          </Link>
+                          {index !== searchResults.length - 1 && (
+                            <Separator key={index} />
+                          )}
+                        </div>
+                      ))
+                    )}
                     {queryResults?.length === 0 && (
                       <div>
                         <p className='text-sm text-gray-700'>
