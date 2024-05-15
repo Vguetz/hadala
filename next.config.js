@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 import withImage from 'next-images'
 const nextConfig = {
   images: {
@@ -15,4 +14,4 @@ const nextConfig = {
   }
 }
 
-export default nextConfig(withImage())
+export default withImage(nextConfig)

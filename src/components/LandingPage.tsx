@@ -2,7 +2,7 @@ import Link from 'next/link'
 import ImageSlider from './ImageSlider'
 
 export const LandingPage = () => {
-  const imageArray = ['/hadalaprueba.jpeg', '/hadalaprueba.jpeg']
+  const imageArray = ['/hada3.jpg', '/hada2.jpgg', '/hada1.jpg']
 
   return (
     <div>
