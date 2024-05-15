@@ -56,7 +56,7 @@ const SubMenu = ({
           <Link
             href={
               item.startsWith('Ver ')
-                ? `/products?category=${title}`
+                ? `/products?category=${title}&subcategory=${' '}`
                 : `/products?category=${title}&subcategory=${item.replace(' ', '+')}`
             }
             key={index}

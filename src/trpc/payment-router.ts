@@ -29,7 +29,7 @@ export async function payMercadoPago(
         }
       ],
       back_urls: {
-        success: `http://localhost:3000/purchase/${randomId}`
+        success: `${process.env.NEXT_PUBLIC_SERVER_URL}/purchase/${randomId}`
       },
 
       auto_return: 'approved',

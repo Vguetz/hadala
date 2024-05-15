@@ -13,7 +13,10 @@ const PORT = Number(process.env.PORT) || 3000
 const createContext = ({
   req,
   res
-}: trpcExpress.CreateExpressContextOptions) => ({ req, res })
+}: trpcExpress.CreateExpressContextOptions) => ({
+  req,
+  res
+})
 
 export type ExpressContext = inferAsyncReturnType<typeof createContext>
 
@@ -22,7 +25,7 @@ const start = async () => {
     initOptions: {
       express: app,
       onInit: async (cms) => {
-        cms.logger.info(`Admin URL ${cms.getAdminURL()}`)
+        cms.logger.info(`Admin URL: ${cms.getAdminURL()}`)
       }
     }
   })
