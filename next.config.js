@@ -1,17 +1,14 @@
-import withImage from 'next-images'
-const nextConfig = {
+const withImages = require('next-images')
+
+module.exports = withImages({
+  reactStrictMode: true,
   images: {
+    disableStaticImages: true,
     remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost'
-      },
       {
         protocol: 'https',
         hostname: 'hadala-production.up.railway.app'
       }
     ]
   }
-}
-
-export default withImage(nextConfig)
+})
