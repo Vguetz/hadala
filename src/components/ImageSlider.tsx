@@ -6,7 +6,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { useEffect, useState } from 'react'
 import type SwiperType from 'swiper'
-import { Pagination } from 'swiper/modules'
+import { Pagination, Navigation } from 'swiper/modules'
 import { cn } from '@/lib/utils'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -81,8 +81,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
         onSwiper={(swiper) => setSwiper(swiper)}
         spaceBetween={50}
         slidesPerView={1}
-        modules={[Pagination]}
-        onTouchMove={(e) => e.preventDefault()}
+        modules={[Pagination, Navigation]}
         className='h-full w-full'
       >
         {urls.map((url, i) => (
