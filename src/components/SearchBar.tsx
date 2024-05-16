@@ -66,7 +66,7 @@ const SearchBar = () => {
         <Search
           onClick={() => setOpenSearchResults(!openSearchResults)}
           className={cn(
-            'cursor-pointer  text-muted-foreground hover:text-gray-700 mx-2 items-center my-auto transition-all ease-out 1',
+            'cursor-pointer w-6 lg:w-full text-muted-foreground hover:text-gray-700 mx-2 items-center my-auto transition-all ease-out 1',
             openSearchResults && 'translate-x-0',
             !openSearchResults && 'translate-x-full'
           )}

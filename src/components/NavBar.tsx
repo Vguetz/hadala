@@ -25,7 +25,7 @@ const Navbar = async () => {
 
               <div className='ml-4 flex lg:ml-0'>
                 <Link href='/'>
-                  <Icons.logo className='w-48 lg:mx-auto p-0  lg:items-center transition-all  hover:scale-110' />
+                  <Icons.logo className='lg:w-48 w-24 lg:mx-auto p-0  lg:items-center transition-all  hover:scale-110' />
                 </Link>
               </div>
 
@@ -35,7 +35,7 @@ const Navbar = async () => {
               </div>
 
               <div className='ml-auto flex items-center'>
-                <div className='mr-8'>
+                <div className='mr-8 hidden md:flex'>
                   <SearchBar />
                 </div>
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>

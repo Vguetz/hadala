@@ -82,6 +82,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
         spaceBetween={50}
         slidesPerView={1}
         modules={[Pagination]}
+        onTouchMove={(e) => e.preventDefault()}
         className='h-full w-full'
       >
         {urls.map((url, i) => (

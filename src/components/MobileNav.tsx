@@ -4,26 +4,31 @@ import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { NavigationMenu, NavigationMenuList } from './ui/navigation-menu'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from './ui/accordion'
+import SearchBar from './SearchBar'
+import MobileSearch from './MobileSearch'
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const pathname = usePathname()
 
-  // whenever we click an item in the menu and navigate away, we want to close the menu
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
 
-  // when we click the path we are currently on, we still want the mobile menu to close,
-  // however we cant rely on the pathname for it because that won't change (we're already there)
   const closeOnCurrent = (href: string) => {
     if (pathname === href) {
       setIsOpen(false)
     }
   }
 
-  // remove second scrollbar when mobile menu is open
   useEffect(() => {
     if (isOpen) document.body.classList.add('overflow-hidden')
     else document.body.classList.remove('overflow-hidden')
@@ -40,48 +45,81 @@ const MobileNav = () => {
       </button>
     )
 
-  const products = [
-    {
-      name: 'Mochilas',
-      category: 'Mochilas',
-      href: `/products?category=Mochilas`
-    },
-    {
-      name: 'Billeteras',
-      category: 'Billeteras',
-      href: `/products?category=Billeteras`
-    },
-    {
-      name: 'Riñoneras',
-      category: 'Riñoneras',
-      href: '/products?category=Riñoneras'
-    },
-    {
-      name: 'Bolsos',
-      category: 'Bolsos',
-      href: '/products?category=Bolsos'
-    },
-    {
-      name: 'Carteras',
-      category: 'Carteras',
-      href: '/products?category=Carteras'
-    },
-    {
-      name: 'Monederos',
-      category: 'Monederos',
-      href: '/products?category=Monederos'
-    }
-  ]
+  const SubMenuItem = ({
+    title,
+    className
+  }: {
+    title: string
+    className: string
+  }) => {
+    const [isHovered, setIsHovered] = useState(false)
+
+    return (
+      <div
+        className='relative'
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <span
+          className={`absolute bottom-0 left-1/2 w-full h-0.5 bg-slate-500 transition-all duration-200 transform -translate-x-1/2 scale-x-0 ${isHovered ? 'scale-x-100' : ''}`}
+        ></span>
+        {title}
+      </div>
+    )
+  }
+  const SubMenu = ({
+    title,
+    items,
+    className
+  }: {
+    title: string
+    items: string[]
+    className: string
+  }) => {
+    return (
+      <Accordion type='single' collapsible>
+        <AccordionItem value={title}>
+          <AccordionTrigger>{title}</AccordionTrigger>
+
+          {items.map((item, index) => (
+            <Link
+              href={
+                item.startsWith('Ver ')
+                  ? `/products?category=${title}&subcategory=${' '}`
+                  : `/products?category=${title}&subcategory=${item.replace(' ', '+')}`
+              }
+              key={index}
+            >
+              <AccordionContent className={className} key={index}>
+                <SubMenuItem title={item} className={className} />
+              </AccordionContent>
+            </Link>
+          ))}
+        </AccordionItem>
+      </Accordion>
+    )
+  }
+  const subLinks = {
+    Bandoleras: ['Ver Bandoleras'],
+    Billeteras: ['Merlina', 'Titana', 'Ver Todas'],
+    Bolsos: ['Benito', 'Liso', 'Alma', 'Ver Todos'],
+    Carteras: ['Chicas', 'Grandes', 'Ver Todas'],
+    Materas: ['Ver Materas'],
+    Mochilas: ['Canguro', 'Con tapa', 'Venusina', 'Ver Todo'],
+    Monederos: ['Ver Monederos'],
+    Morrales: ['Ver Morrales'],
+    Riñoneras: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana', 'Ver Todas']
+  }
 
   return (
-    <div>
-      <div className='relative z-40 lg:hidden'>
+    <div className='w-full'>
+      <div className='relative z-10 lg:hidden'>
         <div className='fixed inset-0 bg-black bg-opacity-25' />
       </div>
 
       <div className='fixed overflow-y-scroll overscroll-y-none transition ease-in delay-100 inset-0 z-40 flex'>
         <div className='w-4/5'>
-          <div className='relative flex w-full max-w-sm flex-col overflow-y-auto bg-white pb-12 shadow-xl'>
+          <div className='relative flex w-full max-w-sm h-full flex-col overflow-y-auto bg-white pb-12 shadow-xl'>
             <div className='flex px-4 pb-2 pt-5'>
               <button
                 type='button'
@@ -91,27 +129,27 @@ const MobileNav = () => {
                 <X className='h-6 w-6' aria-hidden='true' />
               </button>
             </div>
-            <h1 className='text-center  underline underline-offset-4 font-bold'>
-              Productos
-            </h1>
-
             <div className='mt-2'>
-              <ul>
-                {products.map((product) => (
-                  <li
-                    className='text-center overflow-hidden border-b border-gray-200 m-2 p-2  transition ease-in delay-100 hover:bg-gray-100 '
-                    key={product.name}
-                  >
-                    <Link
-                      onClick={() => closeOnCurrent(product.href)}
-                      href={product.href}
-                      className='-m-2 block p-2 font-light text-gray-900'
-                    >
-                      {product.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <Accordion type='multiple' className='p-2 m-2'>
+                <AccordionItem value='mochilas'>
+                  <AccordionTrigger className='text-center mx-auto justify-center'>
+                    <p className='m-2'>Productos</p>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    {Object.entries(subLinks).map(([title, items]) => (
+                      <SubMenu
+                        className='text-center font-light text-sm text-slate-900'
+                        key={title}
+                        title={title}
+                        items={items}
+                      />
+                    ))}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+            <div className='flex ml-16'>
+              <MobileSearch />
             </div>
             {/* Iniciar sesion va a estar disponible mas adelante */}
             {/* <div className='space-y-6 border-t border-gray-200 px-4 py-6'>

@@ -59,7 +59,8 @@ export const appRouter = router({
           name: {
             contains: query
           }
-        }
+        },
+        limit: 5
       })
 
       return products
