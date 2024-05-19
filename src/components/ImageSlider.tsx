@@ -4,9 +4,11 @@ import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
+import 'swiper/css/thumbs'
+import 'swiper/css/navigation'
 import { useEffect, useState } from 'react'
 import type SwiperType from 'swiper'
-import { Pagination, Navigation } from 'swiper/modules'
+import { Pagination, Navigation, Thumbs } from 'swiper/modules'
 import { cn } from '@/lib/utils'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
@@ -81,7 +83,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
         onSwiper={(swiper) => setSwiper(swiper)}
         spaceBetween={50}
         slidesPerView={1}
-        modules={[Pagination, Navigation]}
+        modules={[Pagination, Navigation, Thumbs]}
         className='h-full w-full'
       >
         {urls.map((url, i) => (

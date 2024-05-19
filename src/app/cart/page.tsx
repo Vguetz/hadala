@@ -131,7 +131,7 @@ const Page = () => {
   }
 
   return (
-    <div className='bg-white'>
+    <div className='bg-white overflow-x-clip'>
       <div className='mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
         <div className='flex items-center align-middle'>
           <h1 className='text-xl mb-2 font-bold text-gray-900 sm:text-4xl'>
@@ -258,6 +258,16 @@ const Page = () => {
                     <li key={product.id} className='flex py-6 sm:py-10'>
                       <div className='flex-shrink-0'>
                         <div className='relative h-24 w-24'>
+                          <Button
+                            variant='ghost'
+                            aria-label='Remover producto del carrito'
+                          >
+                            <X
+                              className='h-6 w-6  md:hidden z-50'
+                              aria-hidden='true'
+                              onClick={removeItem.bind(this, product.id)}
+                            />
+                          </Button>
                           {typeof image !== 'string' && image.url ? (
                             <Image
                               fill
@@ -298,7 +308,7 @@ const Page = () => {
                                 aria-label='Remover producto del carrito'
                               >
                                 <X
-                                  className='h-5 w-5'
+                                  className='md:h-5 md:w-5 md:flex hidden'
                                   aria-hidden='true'
                                   onClick={removeItem.bind(this, product.id)}
                                 />
@@ -330,7 +340,7 @@ const Page = () => {
                   A calcular
                 </div>
               </div>
-              <div className='flex items-center justify-between border-t border-gray-200'>
+              <div className='flex flex-col items-center justify-between border-t border-gray-200'>
                 <div className='text-base font-medium flex gap-2 p-4  text-gray-900'>
                   Total:{' '}
                   {isMounted || items.length > 0 ? (
@@ -344,10 +354,10 @@ const Page = () => {
                   <div className='p-2 m-2 text-center'></div>
 
                   {isMounted || items.length > 0 || email != '' ? (
-                    <form>
-                      <div className='transition-all ease-out'>
+                    <form className='flex flex-col'>
+                      <div className='transition-all ease-out '>
                         <p className='md:flex'>Forma de pago:</p>
-                        <div className='mt-2 space-x-4'>
+                        <div className='mt-2 md:space-x-4 '>
                           <RadioGroup defaultValue=''>
                             <div className='flex items-center space-x-2'>
                               <Icons.mercadoPagoIcon className='h-8 w-8' />
@@ -359,13 +369,19 @@ const Page = () => {
                               <Label htmlFor='r1'>Mercado Pago</Label>
                             </div>
                             <div className='flex items-center space-x-2'>
-                              <Icons.transferenciaIcon className='h-8 w-8' />
+                              <Icons.transferenciaIcon className='h-12 w-12' />
                               <RadioGroupItem
                                 value='transferencia'
                                 onClick={selectPaymentMethod}
                                 id='r2'
                               />
-                              <Label htmlFor='r2'>Transferencia Bancaria</Label>
+
+                              <Label htmlFor='r2'>
+                                Transferencia Bancaria{' '}
+                                <span className='text-muted-foreground/70'>
+                                  (15% de descuento)
+                                </span>
+                              </Label>
                             </div>
                           </RadioGroup>
                         </div>

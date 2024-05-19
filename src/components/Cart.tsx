@@ -143,17 +143,22 @@ const Cart = () => {
             >
               <Image src='/emptycart.png' fill alt='Carrito vacio' />
             </div>
-            <div className='text-xl font-semibold'>Tu carrito está vacío</div>
+            <div className='md:text-xl font-semibold'>
+              Tu carrito está vacío
+            </div>
             <SheetTrigger asChild>
               <Link
                 href='/products'
                 className={buttonVariants({
                   variant: 'link',
                   size: 'sm',
-                  className: 'text-sm text-muted-foreground text-blue-500'
+                  className:
+                    'text-sm hidden md:flex text-muted-foreground text-blue-500'
                 })}
               >
-                Añade elementos a tu carrito para finalizar tu compra.
+                <p className='flex flex-col text-sm'>
+                  Añade elementos a tu carrito para finalizar tu compra.
+                </p>
               </Link>
             </SheetTrigger>
           </div>
