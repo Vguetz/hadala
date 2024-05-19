@@ -59,7 +59,7 @@ const Footer = () => {
           </div>
 
           <div className='mt-4 flex items-center justify-center md:mt-0'>
-            <div className='flex md:space-x-8'>
+            <div className='flex  md:space-x-8'>
               <Link
                 href='#'
                 className='text-sm text-muted-foreground hover:text-gray-600'
