@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'hadala-production.up.railway.app'
+        hostname: 'hadalashop.com'
       }
     ]
   }

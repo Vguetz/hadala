@@ -101,7 +101,8 @@ exports.appRouter = (0, trpc_1.router)({
                                 name: {
                                     contains: query
                                 }
-                            }
+                            },
+                            limit: 5
                         })];
                 case 2:
                     products = (_c.sent()).docs;
