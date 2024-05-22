@@ -47,7 +47,7 @@ const Page = async ({ params }: PageProps) => {
 
   const [product] = products
 
-  if (!products) return notFound()
+  if (!products || products.length === 0 || !product) return notFound()
 
   const label = PRODUCT_CATEGORIES.find(
     (category) => category.category === product.category
