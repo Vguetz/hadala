@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload/types'
 
 export const TransferTest: CollectionConfig = {
-  slug: 'TransferenciasTest',
+  slug: 'Transferencias_Hadala',
   admin: {
     useAsTitle: 'Transfer',
     description: 'Transferencias de dinero en Hadala'
@@ -36,6 +36,44 @@ export const TransferTest: CollectionConfig = {
       },
       label: 'Total del carrito',
       type: 'number',
+      required: true
+    },
+    {
+      name: 'items',
+      label: 'Items',
+      type: 'array',
+      required: true,
+      labels: {
+        singular: 'Item',
+        plural: 'Items'
+      },
+      minRows: 1,
+      maxRows: 10,
+      fields: [
+        {
+          name: 'item',
+          label: 'Item',
+          type: 'text',
+          required: true
+        }
+      ]
+    },
+    {
+      name: 'name',
+      label: 'Nombre',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'phone',
+      label: 'Teléfono',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'direccion',
+      label: 'Dirección',
+      type: 'text',
       required: true
     },
     {

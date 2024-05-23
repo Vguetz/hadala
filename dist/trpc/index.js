@@ -48,7 +48,11 @@ exports.appRouter = (0, trpc_1.router)({
         .input(zod_1.z.object({
         transferId: zod_1.z.string(),
         email: zod_1.z.string().email(),
-        cartTotal: zod_1.z.number().min(0).max(100000)
+        cartTotal: zod_1.z.number().min(0).max(100000),
+        items: zod_1.z.array(zod_1.z.string()),
+        name: zod_1.z.string(),
+        phone: zod_1.z.string(),
+        direccion: zod_1.z.string()
     }))
         .mutation(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
         var payload, result, error_1;
@@ -62,16 +66,19 @@ exports.appRouter = (0, trpc_1.router)({
                 case 2:
                     _c.trys.push([2, 4, , 5]);
                     return [4 /*yield*/, payload.create({
-                            collection: 'TransferenciasTest',
+                            collection: 'Transferencias_Hadala',
                             data: {
                                 transferId: input.transferId,
                                 email: input.email,
-                                cartTotal: input.cartTotal
+                                cartTotal: input.cartTotal,
+                                items: input.items.map(function (item) { return ({ item: item }); }),
+                                phone: input.phone,
+                                direccion: input.direccion,
+                                name: input.name
                             }
                         })];
                 case 3:
                     result = _c.sent();
-                    console.log(result);
                     return [2 /*return*/, result];
                 case 4:
                     error_1 = _c.sent();

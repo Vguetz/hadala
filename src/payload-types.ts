@@ -15,8 +15,7 @@ export interface Config {
     orders: Order;
     admins: Admin;
     Pagos: Pago;
-    Transferencias: Transferencia;
-    TransferenciasTest: TransferenciasTest;
+    Transferencias_Hadala: Transferencias_Hadala;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -107,6 +106,8 @@ export interface ProductFile {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -123,6 +124,8 @@ export interface Media {
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
   sizes?: {
     thumbnail?: {
       url?: string | null;
@@ -203,28 +206,20 @@ export interface Pago {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Transferencias".
+ * via the `definition` "Transferencias_Hadala".
  */
-export interface Transferencia {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  monto: number;
-  transferId?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TransferenciasTest".
- */
-export interface TransferenciasTest {
+export interface Transferencias_Hadala {
   id: string;
   transferId: string;
   email: string;
   cartTotal: number;
+  items: {
+    item: string;
+    id?: string | null;
+  }[];
+  name: string;
+  phone: string;
+  direccion: string;
   isTransfered?: boolean | null;
   updatedAt: string;
   createdAt: string;

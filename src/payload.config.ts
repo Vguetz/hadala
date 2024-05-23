@@ -28,7 +28,6 @@ export default buildConfig({
     Orders,
     Admins,
     Payments,
-    Transfer,
     TransferTest
   ],
   routes: {

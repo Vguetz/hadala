@@ -12,7 +12,11 @@ export const appRouter = router({
       z.object({
         transferId: z.string(),
         email: z.string().email(),
-        cartTotal: z.number().min(0).max(100000)
+        cartTotal: z.number().min(0).max(100000),
+        items: z.array(z.string()),
+        name: z.string(),
+        phone: z.string(),
+        direccion: z.string()
       })
     )
     .mutation(async ({ input }) => {
@@ -20,14 +24,17 @@ export const appRouter = router({
 
       try {
         const result = await payload.create({
-          collection: 'TransferenciasTest',
+          collection: 'Transferencias_Hadala',
           data: {
             transferId: input.transferId,
             email: input.email,
-            cartTotal: input.cartTotal
+            cartTotal: input.cartTotal,
+            items: input.items.map((item) => ({ item })),
+            phone: input.phone,
+            direccion: input.direccion,
+            name: input.name
           }
         })
-        console.log(result)
         return result
       } catch (error) {
         console.error('Error saving client info:', error)

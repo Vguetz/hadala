@@ -16,7 +16,6 @@ var ProductFile_1 = require("./collections/Products/ProductFile");
 var Orders_1 = require("./collections/Orders");
 var Admins_1 = require("./collections/Admins");
 var Payments_1 = require("./collections/Payments");
-var Transfer_1 = require("./collections/Transfer");
 var TransferTest_1 = require("./collections/TransferTest");
 dotenv_1.default.config({
     path: path_1.default.resolve(__dirname, '../.env')
@@ -31,7 +30,6 @@ exports.default = (0, config_1.buildConfig)({
         Orders_1.Orders,
         Admins_1.Admins,
         Payments_1.Payments,
-        Transfer_1.Transfer,
         TransferTest_1.TransferTest
     ],
     routes: {

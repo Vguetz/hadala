@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransferTest = void 0;
 exports.TransferTest = {
-    slug: 'TransferenciasTest',
+    slug: 'Transferencias_Hadala',
     admin: {
         useAsTitle: 'Transfer',
         description: 'Transferencias de dinero en Hadala'
@@ -54,6 +54,44 @@ exports.TransferTest = {
             },
             label: 'Total del carrito',
             type: 'number',
+            required: true
+        },
+        {
+            name: 'items',
+            label: 'Items',
+            type: 'array',
+            required: true,
+            labels: {
+                singular: 'Item',
+                plural: 'Items'
+            },
+            minRows: 1,
+            maxRows: 10,
+            fields: [
+                {
+                    name: 'item',
+                    label: 'Item',
+                    type: 'text',
+                    required: true
+                }
+            ]
+        },
+        {
+            name: 'name',
+            label: 'Nombre',
+            type: 'text',
+            required: true
+        },
+        {
+            name: 'phone',
+            label: 'Teléfono',
+            type: 'text',
+            required: true
+        },
+        {
+            name: 'direccion',
+            label: 'Dirección',
+            type: 'text',
             required: true
         },
         {

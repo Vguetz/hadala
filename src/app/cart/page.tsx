@@ -22,61 +22,102 @@ interface ClientInfo {
   transferId: string
   email: string
   cartTotal: number
+  items: string[]
+  name: string
+  phone: string
+  direccion: string
 }
 
 const Page = () => {
+  const { items, removeItem } = useCart()
+  const [isMounted, setIsMounted] = useState<boolean>(false)
+  const [name, setName] = useState<string>('')
+  const [address, setAddress] = useState<string>('')
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
+  const [phone, isValidPhone, handlePhoneChange] = usePhone()
+  const [radioGroupValue, setRadioGroupValue] = useState<string>('')
+  const [email, setEmail] = useEmail()
+  const cartTotal = items.reduce(
+    (total, { product }) => total + product.price,
+    0
+  )
   const randomIdGenerator = () => {
     const minDigits = 10
     const min = Math.pow(10, minDigits - 1)
     const max = Math.pow(10, minDigits) - 1
     return Math.floor(Math.random() * (max - min + 1) + min).toString()
   }
-  const [props, setProps] = useState<ClientInfo>({
-    transferId: randomIdGenerator(),
-    email: '',
-    cartTotal: 0
-  })
+
+  const updateLocalStorage = () => {
+    localStorage.setItem('email', email)
+    localStorage.setItem('phone', phone)
+    localStorage.setItem('name', name)
+    localStorage.setItem('direccion', address)
+    localStorage.setItem('cartTotal', cartTotal.toString())
+    localStorage.setItem(
+      'items',
+      JSON.stringify(items.map((item) => item.product.id))
+    )
+  }
+
   useEffect(() => {
-    // Retrieve data from localStorage and update props
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (isMounted) {
+      updateLocalStorage()
+    }
+  }, [email, phone, name, address, cartTotal, items])
+
+  useEffect(() => {
     const storedProps = {
       transferId: randomIdGenerator(),
       email: localStorage.getItem('email') || '',
-      cartTotal: parseFloat(localStorage.getItem('cartTotal') || '0')
+      cartTotal: parseFloat(localStorage.getItem('cartTotal') || '0'),
+      items: JSON.parse(localStorage.getItem('items') || '[]'),
+      name: localStorage.getItem('name') || '',
+      phone: localStorage.getItem('phone') || '',
+      direccion: localStorage.getItem('direccion') || ''
     }
-    setProps({
-      ...storedProps
-    })
+    setProps(storedProps)
+  }, [isMounted])
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('email') || ''
+    const storedPhone = localStorage.getItem('phone') || ''
+    const storedName = localStorage.getItem('name') || ''
+    const storedAddress = localStorage.getItem('direccion') || ''
+
+    if (storedEmail) setEmail(storedEmail)
+    if (storedPhone)
+      handlePhoneChange({
+        target: { value: storedPhone }
+      } as React.ChangeEvent<HTMLInputElement>)
+    if (storedName) setName(storedName)
+    if (storedAddress) setAddress(storedAddress)
   }, [])
 
-  const { items, removeItem } = useCart()
-  const [isMounted, setIsMounted] = useState<boolean>(false)
-  const [name, setName] = useState<string>('')
-  const [address, setAddress] = useState<string>('')
-  const [isValidEmail, setIsValidEmail] = useState<boolean>(false)
-  const [radioGroupValue, setRadioGroupValue] = useState<string>('')
-
-  const cartTotal = items.reduce(
-    (total, { product }) => total + product.price,
-    0
-  )
-
-  const [email, setEmail] = useEmail()
   useEffect(() => {
-    let storageEmail
-    // Get the value from local storage if it exists
-    storageEmail = localStorage.getItem('email') || ''
-    setEmail(storageEmail)
-  }, [email])
-  const [phone, isValidPhone, handlePhoneChange] = usePhone()
+    const updatedProps = {
+      transferId: randomIdGenerator(),
+      email,
+      cartTotal,
+      items: items.map((item) => item.product.id),
+      name,
+      phone,
+      direccion: address
+    }
+    setProps(updatedProps)
+  }, [email, phone, name, address, cartTotal, items])
+
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)
-    // Verificar si el email es válido
     setIsValidEmail(/^\S+@\S+\.\S+$/.test(event.target.value.trim()))
   }
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)
   }
-
   const handleDireccionChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -84,36 +125,21 @@ const Page = () => {
   }
 
   const selectPaymentMethod = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setMercadoPago(true)
     const value = event.currentTarget.value
-    if (value === 'mercadopago' || value === '') {
-      setMercadoPago(true)
-      setRadioGroupValue('mercadopago')
-    } else if (value === 'transferencia') {
-      setMercadoPago(false)
-      setRadioGroupValue('transferencia')
-    } else {
-      setMercadoPago(true)
-    }
-    return setMercadoPago
+    setMercadoPago(value === 'mercadopago')
+    setRadioGroupValue(value)
   }
 
   const [mercadoPago, setMercadoPago] = useState<boolean>(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (email != '') {
-      localStorage.setItem('email', email)
-    }
-  }, [email])
-  useEffect(() => {
-    localStorage.setItem('phone', phone)
-    localStorage.setItem('name', name)
-    localStorage.setItem('direccion', address)
-  }, [name, phone, address])
+  const [props, setProps] = useState<ClientInfo>({
+    transferId: randomIdGenerator(),
+    email: '',
+    cartTotal: 0,
+    items: [],
+    name: '',
+    phone: '',
+    direccion: ''
+  })
 
   const { mutate: transferDataSubmit } = trpc.saveClientInfo.useMutation({
     onSuccess: () => {
@@ -340,11 +366,23 @@ const Page = () => {
                   A calcular
                 </div>
               </div>
+
               <div className='flex flex-col items-center justify-between border-t border-gray-200'>
+                <div>
+                  <p className='text-muted-foreground text-sm m-2'>
+                    <span className='line-through'>
+                      {mercadoPago === true ? '' : `Antes: $${cartTotal}`}
+                    </span>
+                  </p>
+                </div>
                 <div className='text-base font-medium flex gap-2 p-4  text-gray-900'>
                   Total:{' '}
                   {isMounted || items.length > 0 ? (
-                    <div className='flex'>{formatPrice(cartTotal)}</div>
+                    <div className='flex'>
+                      {mercadoPago === true
+                        ? formatPrice(cartTotal)
+                        : formatPrice(cartTotal - cartTotal * 0.15)}
+                    </div>
                   ) : (
                     <Loader2 className='h-5 w-5 animate-spin text-muted-foreground' />
                   )}
@@ -387,7 +425,11 @@ const Page = () => {
                         </div>
                       </div>
                       <Input
-                        value={formatPrice(cartTotal)}
+                        value={
+                          mercadoPago === true
+                            ? formatPrice(cartTotal)
+                            : formatPrice(cartTotal - cartTotal * 0.15)
+                        }
                         name='total'
                         disabled
                         className='hidden text-lg font-medium px-4 text-gray-900 bg-transparent border-none w-full cursor-not-allowed opacity-100'

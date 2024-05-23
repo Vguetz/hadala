@@ -12,7 +12,7 @@ const TransferPage = async ({ params }: PageProps) => {
   const { transferId } = params
   const payload = await getPayloadClient()
   const { docs: orders } = await payload.find({
-    collection: 'TransferenciasTest',
+    collection: 'Transferencias_Hadala',
     limit: 1,
     where: {
       transferId: {
@@ -22,15 +22,18 @@ const TransferPage = async ({ params }: PageProps) => {
   })
 
   const [order] = orders
+  const total = order.cartTotal
+  const discount = total * 0.15
+  const cartDiscount = total - discount
 
-  if (!order) return notFound()
+  if (!order || !orders) return notFound()
 
   return (
     <>
       <MaxWidthWrapper>
         <div className='border-green-600 border-2  items-center p-2 my-4 mx-auto max-w-lg text-center'>
           <h1 className='text-2xl font-extralight p-12 '>
-            Gracias {order.email}. Tu pedido ha sido recibido.
+            Gracias {order.name}. Tu pedido ha sido recibido.
           </h1>
         </div>
         <div className='grid grid-cols-4 gap-4'>
@@ -40,7 +43,7 @@ const TransferPage = async ({ params }: PageProps) => {
           </div>
           <div>
             <p className='font-light'>Total del pedido</p>
-            <span className='font-semibold'>${order.cartTotal}</span>
+            <span className='font-semibold'>${cartDiscount}</span>
           </div>
           <div>
             <p className='font-light'>Estado del pedido</p>
