@@ -53,5 +53,5 @@ export async function payMercadoPago(
     }
   })
 
-  redirect(preference.sandbox_init_point!)
+  redirect(preference.init_point!)
 }

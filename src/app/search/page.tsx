@@ -76,7 +76,7 @@ const Search = () => {
         ) : searchResults.length === 0 ? (
           <div className='flex my-auto mx-auto justify-center'>
             <p className='text-lg text-muted-foreground'>
-              No se encontraron resultados para "{searchTerm}"
+              No se encontraron resultados para {`"${searchTerm}"`}
             </p>
           </div>
         ) : (

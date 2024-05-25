@@ -90,15 +90,16 @@ exports.appRouter = (0, trpc_1.router)({
     }); }),
     getSearchBarProducts: trpc_1.publicProcedure
         .input(zod_1.z.object({
-        query: zod_1.z.string()
+        query: zod_1.z.string(),
+        limit: zod_1.z.number().min(1).max(100).optional()
     }))
         .query(function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
-        var query, payload, products;
+        var query, limit, payload, products;
         var input = _b.input;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
-                    query = input.query;
+                    query = input.query, limit = input.limit;
                     return [4 /*yield*/, (0, get_payload_1.getPayloadClient)()];
                 case 1:
                     payload = _c.sent();
@@ -109,7 +110,7 @@ exports.appRouter = (0, trpc_1.router)({
                                     contains: query
                                 }
                             },
-                            limit: 5
+                            limit: limit || 5
                         })];
                 case 2:
                     products = (_c.sent()).docs;
