@@ -45,11 +45,12 @@ export const appRouter = router({
   getSearchBarProducts: publicProcedure
     .input(
       z.object({
-        query: z.string()
+        query: z.string(),
+        limit: z.number().min(1).max(100).optional()
       })
     )
     .query(async ({ input }) => {
-      const { query } = input
+      const { query, limit } = input
 
       const payload = await getPayloadClient()
 
@@ -67,7 +68,7 @@ export const appRouter = router({
             contains: query
           }
         },
-        limit: 5
+        limit: limit || 5
       })
 
       return products

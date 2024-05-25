@@ -28,3 +28,18 @@ export function getLocalStorage(key: string) {
   const value = localStorage.getItem(key)
   return value
 }
+
+export function randomizeCategory() {
+  const categories = [
+    'Bandoleras',
+    'Billeteras',
+    'Bolsos',
+    'Carteras',
+    'Materas',
+    'Monederos',
+    'Riñoneras',
+    'Morrales'
+  ]
+  const randomIndex = Math.floor(Math.random() * categories.length)
+  return categories[randomIndex]
+}

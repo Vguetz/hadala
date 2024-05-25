@@ -25,12 +25,11 @@ const Navbar = async () => {
 
               <div className='ml-4 flex lg:ml-0'>
                 <Link href='/'>
-                  <Icons.logo className='lg:w-48 w-24 lg:mx-auto p-0  lg:items-center transition-all  hover:scale-110' />
+                  <Icons.logo className='lg:w-48 w-24 lg:mx-auto p-0 lg:items-center transition-all hover:scale-110' />
                 </Link>
               </div>
 
-              <div className='hidden z-50 lg:ml-8 lg:block lg:self-stretch lg:my-auto items-center justify-center'>
-                {/* <NavItems /> */}
+              <div className='hidden md:grid z-50 lg:ml-8 lg:block lg:self-stretch lg:my-auto items-center justify-center'>
                 <ItemsNav />
               </div>
 
@@ -39,53 +38,12 @@ const Navbar = async () => {
                   <SearchBar />
                 </div>
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                  {/* {user ? null : (
-                    <Link
-                      href='/sign-in'
-                      className={buttonVariants({
-                        variant: 'ghost'
-                      })}
-                    >
-                      Iniciar Sesión
-                    </Link>
-                  )}
-
-                  {user ? null : (
-                    <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
-                  )}
-
-                  {user ? (
-                    <UserAccountNav user={user} />
-                  ) : (
-                    <Link
-                      href='/sign-up'
-                      className={buttonVariants({
-                        variant: 'ghost'
-                      })}
-                    >
-                      Registrarse
-                    </Link>
-                  )}
-
-                  {user ? (
-                    <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
-                  ) : null}
-
-                  {user ? null : (
-                    <div className='flex lg:ml-6'>
-                      <span
-                        className='h-6 w-px bg-gray-200'
-                        aria-hidden='true'
-                      />
-                    </div>
-                  )} */}
-
                   <div className='ml-4 flow-root lg:ml-6'>
                     <Cart />
                   </div>
                 </div>
               </div>
-              <div className='lg:hidden '>
+              <div className='lg:hidden'>
                 <Cart />
               </div>
               <div className=''></div>

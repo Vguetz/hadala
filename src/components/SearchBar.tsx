@@ -59,6 +59,9 @@ const SearchBar = () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+  const saveSearchTermLocal = (searchTerm: string) => {
+    localStorage.setItem('searchTerm', searchTerm)
+  }
 
   return (
     <div className='p-2 flex transition-all ease-out 0.5 my-auto'>
@@ -76,7 +79,7 @@ const SearchBar = () => {
         <Input
           ref={inputRef}
           className={cn(
-            'w-full px-3 truncate h-8 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition-all ease-out 0.5 sm:text-sm',
+            'w-full px-3 truncate h-8 border border-gray-300 rounded-md shadow-sm mx-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition-all ease-out 0.5 sm:text-sm',
             !openSearchResults && 'hidden'
           )}
           type='text'
@@ -137,13 +140,13 @@ const SearchBar = () => {
                           No se encontraron resultados
                         </p>
                         {/* TODO: Search section */}
-                        {/* <Link href='/search'>
-                          <p className='text-sm text-blue-500 hover:text-blue-700'>
-                            Buscar en toda la tienda...
-                          </p>
-                        </Link> */}
                       </div>
                     )}
+                    <Link href='/search' {...saveSearchTermLocal}>
+                      <p className='text-sm text-blue-500 hover:text-blue-700'>
+                        Buscar en toda la tienda...
+                      </p>
+                    </Link>
                   </div>
                 </div>
               </div>

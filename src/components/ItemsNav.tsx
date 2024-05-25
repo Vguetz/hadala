@@ -86,13 +86,13 @@ const ItemsNav = () => {
 
   return (
     <div>
-      <NavigationMenu>
+      <NavigationMenu className='lg:flex grid'>
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger className='text-lg font-light'>
               Productos
             </NavigationMenuTrigger>
-            <NavigationMenuContent className='flex-col p-6'>
+            <NavigationMenuContent className=' lg:flex-col grid-cols-2 p-6'>
               {Object.entries(subLinks).map(([title, items]) => (
                 <SubMenu
                   className='text-center font-light text-sm text-slate-900'
