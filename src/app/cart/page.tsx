@@ -381,7 +381,7 @@ const Page = () => {
                     <div className='flex'>
                       {mercadoPago === true
                         ? formatPrice(cartTotal)
-                        : formatPrice(cartTotal - cartTotal * 0.15)}
+                        : formatPrice(cartTotal - cartTotal * 0.1)}
                     </div>
                   ) : (
                     <Loader2 className='h-5 w-5 animate-spin text-muted-foreground' />
@@ -417,7 +417,7 @@ const Page = () => {
                               <Label htmlFor='r2'>
                                 Transferencia Bancaria{' '}
                                 <span className='text-muted-foreground/70'>
-                                  (15% de descuento)
+                                  (10% de descuento)
                                 </span>
                               </Label>
                             </div>
@@ -428,7 +428,7 @@ const Page = () => {
                         value={
                           mercadoPago === true
                             ? formatPrice(cartTotal)
-                            : formatPrice(cartTotal - cartTotal * 0.15)
+                            : formatPrice(cartTotal - cartTotal * 0.1)
                         }
                         name='total'
                         disabled

@@ -23,7 +23,7 @@ const TransferPage = async ({ params }: PageProps) => {
 
   const [order] = orders
   const total = order.cartTotal
-  const discount = total * 0.15
+  const discount = total * 0.1
   const cartDiscount = total - discount
 
   if (!order || !orders) return notFound()
