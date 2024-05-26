@@ -102,13 +102,14 @@ const MobileNav = () => {
   const subLinks = {
     Bandoleras: ['Ver Bandoleras'],
     Billeteras: ['Merlina', 'Titana', 'Ver Todas'],
-    Bolsos: ['Benito', 'Liso', 'Alma', 'Ver Todos'],
-    Carteras: ['Chicas', 'Grandes', 'Ver Todas'],
+    Bolsos: ['Benito', 'Liso', 'Alma', 'Blanca', 'Ver Todos'],
+    Carteras: ['Chicas', 'Grandes', 'Leica', 'Milay', 'Ver Todas'],
     Materas: ['Ver Materas'],
     Mochilas: ['Canguro', 'Con tapa', 'Venusina', 'Ver Todo'],
     Monederos: ['Ver Monederos'],
     Morrales: ['Ver Morrales'],
-    Riñoneras: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana', 'Ver Todas']
+    Riñoneras: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana', 'Ver Todas'],
+    'Phone Bags': ['Ver Phone Bags'] // Updated key to include space
   }
 
   return (
