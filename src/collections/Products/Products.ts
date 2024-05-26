@@ -61,7 +61,8 @@ export const Productos: CollectionConfig = {
         'Mochilas',
         'Monederos',
         'Morrales',
-        'Riñoneras'
+        'Riñoneras',
+        'Phone Bags'
       ],
       required: true
     },
@@ -84,7 +85,10 @@ export const Productos: CollectionConfig = {
         'Clarck',
         'Clásica',
         'Liana',
-        'Triana'
+        'Triana',
+        'Leica',
+        'Milay',
+        'Blanca'
       ],
       required: false
     },

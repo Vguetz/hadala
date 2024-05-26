@@ -60,7 +60,8 @@ export interface Product {
     | 'Mochilas'
     | 'Monederos'
     | 'Morrales'
-    | 'Riñoneras';
+    | 'Riñoneras'
+    | 'Phone Bags';
   subcategory?:
     | (
         | 'Merlina'
@@ -78,6 +79,9 @@ export interface Product {
         | 'Clásica'
         | 'Liana'
         | 'Triana'
+        | 'Leica'
+        | 'Milay'
+        | 'Blanca'
       )
     | null;
   product_files?: (string | null) | ProductFile;

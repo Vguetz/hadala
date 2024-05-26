@@ -13,13 +13,13 @@ export const PRODUCT_CATEGORIES = [
   },
   {
     name: 'Bolsos',
-    subcategories: ['Benito', 'Liso', 'Alma'],
+    subcategories: ['Benito', 'Liso', 'Alma', 'Blanca'],
     category: 'Bolsos',
     slug: 'bolsos'
   },
   {
     name: 'Carteras',
-    subcategories: ['Chicas', 'Grandes'],
+    subcategories: ['Chicas', 'Grandes', 'Leica', 'Milay'],
     category: 'Carteras',
     slug: 'carteras'
   },
@@ -52,5 +52,11 @@ export const PRODUCT_CATEGORIES = [
     subcategories: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana'],
     category: 'Riñoneras',
     slug: 'riñoneras'
+  },
+  {
+    name: 'Phone Bags',
+    subcategories: [],
+    category: 'Phone Bags',
+    slug: 'phone-bags'
   }
 ]

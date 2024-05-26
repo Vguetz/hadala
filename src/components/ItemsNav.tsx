@@ -56,8 +56,8 @@ const SubMenu = ({
           <Link
             href={
               item.startsWith('Ver ')
-                ? `/products?category=${title}&subcategory=${' '}`
-                : `/products?category=${title}&subcategory=${item.replace(' ', '+')}`
+                ? `/products?category=${encodeURIComponent(title)}&subcategory=${' '}`
+                : `/products?category=${encodeURIComponent(title)}&subcategory=${encodeURIComponent(item.replace(' ', '+'))}`
             }
             key={index}
           >
@@ -75,13 +75,14 @@ const ItemsNav = () => {
   const subLinks = {
     Bandoleras: ['Ver Bandoleras'],
     Billeteras: ['Merlina', 'Titana', 'Ver Todas'],
-    Bolsos: ['Benito', 'Liso', 'Alma', 'Ver Todos'],
-    Carteras: ['Chicas', 'Grandes', 'Ver Todas'],
+    Bolsos: ['Benito', 'Liso', 'Alma', 'Blanca', 'Ver Todos'],
+    Carteras: ['Chicas', 'Grandes', 'Leica', 'Milay', 'Ver Todas'],
     Materas: ['Ver Materas'],
     Mochilas: ['Canguro', 'Con tapa', 'Venusina', 'Ver Todo'],
     Monederos: ['Ver Monederos'],
     Morrales: ['Ver Morrales'],
-    Riñoneras: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana', 'Ver Todas']
+    Riñoneras: ['Aine', 'Clarck', 'Clásica', 'Liana', 'Triana', 'Ver Todas'],
+    'Phone Bags': ['Ver Phone Bags'] // Updated key to include space
   }
 
   return (
@@ -92,7 +93,7 @@ const ItemsNav = () => {
             <NavigationMenuTrigger className='text-lg font-light'>
               Productos
             </NavigationMenuTrigger>
-            <NavigationMenuContent className=' lg:flex-col grid-cols-2 p-6'>
+            <NavigationMenuContent className=' grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'>
               {Object.entries(subLinks).map(([title, items]) => (
                 <SubMenu
                   className='text-center font-light text-sm text-slate-900'
