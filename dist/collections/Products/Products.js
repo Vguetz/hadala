@@ -60,7 +60,8 @@ exports.Productos = {
                 'Mochilas',
                 'Monederos',
                 'Morrales',
-                'Riñoneras'
+                'Riñoneras',
+                'Phone Bags'
             ],
             required: true
         },
@@ -83,7 +84,10 @@ exports.Productos = {
                 'Clarck',
                 'Clásica',
                 'Liana',
-                'Triana'
+                'Triana',
+                'Leica',
+                'Milay',
+                'Blanca'
             ],
             required: false
         },
