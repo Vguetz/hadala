@@ -62,10 +62,11 @@ const TransferPage = async ({ params }: PageProps) => {
         </div>
         <div className='my-6'>
           <p className='text-muted-foreground'>
-            Es impresindible enviar el comprobante de pago junto con el número
-            de pedidio a nuestro correo electrónico hadala@hadala.com.uy para su
-            verificació y posterior envío. El pedido no será enviado si el pago
-            no se ha verificado el pago.
+            Es imprescindible enviar el comprobante de pago junto con el número
+            de pedido a nuestro WhatsApp{' '}
+            <span className='font-semibold'>094 418 546</span> para su
+            verificación y posterior envío. El pedido no será enviado si el pago
+            no se ha verificado
           </p>
         </div>
 
@@ -76,16 +77,34 @@ const TransferPage = async ({ params }: PageProps) => {
               Banco <span className='font-bold'>BROU</span>
             </li>
             <li className='font-light'>Caja de Ahorro en Pesos</li>
-            <li className='font-light'>Cuenta N° 1104555260001</li>
+            <li className='font-light'>Cuenta N° 11045552600001</li>
             <li className='font-light'>Nombre: Dayhana Rivas</li>
           </ol>
         </div>
         <div>
           <p className='text-muted-foreground'>
-            En caso de querer ver el estado de tu pedido, puedes entrar a este
-            mismo enlace y ver si el estado a cambiado a {'Aceptado'} o
-            consultarnos a nuestro correo electronico.
+            En caso de querer saber el estado de tu pedido, puedes entrar a este
+            mismo enlace y ver si el estado a cambiado a {'“Aceptado”'} o
+            consultarnos a nuestro Whatsapp
           </p>
+          {/* <div className='border'>
+            <h2 className='flex items-center text-center justify-center'>
+              Tu orden:
+            </h2>
+            <div className='flex flex-col items-center text-center justify-center gap-2'>
+              {order.items.map((item, index) => (
+                <p key={index}>
+                  ID del producto {index }: {item.item}
+                </p>
+              ))}
+              {order.cartTotal && (
+                <p>
+                  Total:{' '}
+                  <span className='font-semibold'>${order.cartTotal}</span>
+                </p>
+              )}
+            </div>
+          </div> */}
         </div>
       </MaxWidthWrapper>
     </>

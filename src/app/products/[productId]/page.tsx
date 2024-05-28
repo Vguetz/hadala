@@ -8,6 +8,7 @@ import { formatPrice } from '@/lib/utils'
 import { Check, Shield } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import ReactMarkdown from 'react-markdown'
 
 interface PageProps {
   params: {
@@ -106,9 +107,9 @@ const Page = async ({ params }: PageProps) => {
               </div>
 
               <div className='mt-4 space-y-6'>
-                <p className='text-base text-muted-foreground'>
+                <ReactMarkdown className='text-base text-muted-foreground'>
                   {product.description}
-                </p>
+                </ReactMarkdown>
               </div>
 
               <div className='mt-6 flex items-center'>
@@ -117,10 +118,41 @@ const Page = async ({ params }: PageProps) => {
                   className='h-5 w-5 flex-shrink-0 text-green-500'
                 />
                 <p className='ml-2 text-sm text-muted-foreground'>
-                  {product.description === 'Diseño Único'
+                  {product.description === 'Diseño Único' ||
+                  product.stock === true
                     ? 'Consultar stock'
                     : 'En stock'}
                 </p>
+              </div>
+              <div className='my-4'>
+                {product.Ancho ||
+                product.altura ||
+                product.laterales ||
+                product.cierreprincipal ? (
+                  <div>
+                    <p className='font-semibold'>Medidas:</p>
+                    <ul>
+                      {product.altura && <li>Alto: {product.altura} cm</li>}
+                      {product.Ancho && <li>Ancho: {product.Ancho} cm</li>}
+                      {product.laterales && (
+                        <li>Laterales: {product.laterales}cm</li>
+                      )}
+                      {product.cierreprincipal && (
+                        <li>Cierre Principal: {product.cierreprincipal}cm</li>
+                      )}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+              <div>
+                {product.interior ? (
+                  <>
+                    <p className='font-semibold'>Interior:</p>
+                    <ReactMarkdown className='text-muted-foreground'>
+                      {product.interior}
+                    </ReactMarkdown>
+                  </>
+                ) : null}
               </div>
             </section>
           </div>

@@ -73,7 +73,7 @@ const Footer = () => {
                 Politicas de privacidad
               </Link>
               <Link
-                href='#'
+                href='/contact'
                 className='text-sm text-muted-foreground hover:text-gray-600'
               >
                 Contacto

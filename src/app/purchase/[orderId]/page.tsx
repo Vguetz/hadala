@@ -51,19 +51,20 @@ const Page = async ({ params }: PageProps) => {
             {order.productoPagado ? (
               <p className='mt-2 text-base text-muted-foreground'>
                 Tu órden se ha procesado. Desde Hadalá, nos comunicaremos
-                contigo para coordinar el envío. Hemos enviado un correo a{' '}
+                contigo para coordinar el envío. Enviaremos un WhatsApp a el
+                teléfono{' '}
                 <span className='font-medium text-gray-900'>
                   {' '}
-                  {order.email}{' '}
+                  {order.telefono}{' '}
                 </span>
-                con los detalles de la compra. Si tienes alguna duda, no dudes
-                en contactarnos.
+                con los detalles. Si tienes alguna duda, no dudes en
+                contactarnos al 094 418 546.
               </p>
             ) : (
               <p className='mt-2 text-base text-muted-foreground'>
                 <Loader2 className='animate-spin text-muted-foreground' />
                 Tu orden está siendo procesada. Por favor, espera. Si tienes
-                alguna duda, no dudes en contactarnos.
+                alguna duda, no dudes en contactarnos al 094 418 546.
               </p>
             )}
 
@@ -90,7 +91,7 @@ const Page = async ({ params }: PageProps) => {
               <div className='mt-16 grid grid-cols-2 gap-x-4 text-sm text-gray-600'>
                 <div>
                   <p className='font-medium text-gray-900'>Enviar a</p>
-                  <p>{order.email}</p>
+                  <p>{order.telefono}</p>
                 </div>
 
                 <div>

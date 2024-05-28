@@ -93,6 +93,47 @@ export const Productos: CollectionConfig = {
       required: false
     },
     {
+      type: 'row',
+      fields: [
+        {
+          name: 'altura',
+          label: 'Altura (cm)',
+          type: 'text',
+          required: false
+        },
+        {
+          name: 'Ancho',
+          label: 'Ancho (cm)',
+          type: 'text',
+          required: false
+        },
+        {
+          name: 'laterales',
+          label: 'Laterales (cm)',
+          type: 'text',
+          required: false
+        },
+        {
+          name: 'cierreprincipal',
+          label: 'Cierre Principal',
+          type: 'text',
+          required: false
+        }
+      ]
+    },
+    {
+      name: 'stock',
+      label: 'Check si es diseño Unico',
+      type: 'checkbox',
+      required: false
+    },
+    {
+      name: 'interior',
+      label: 'Interior',
+      type: 'textarea',
+      required: false
+    },
+    {
       name: 'product_files',
       label: 'Archivos del producto',
       type: 'relationship',

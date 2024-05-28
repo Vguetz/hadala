@@ -84,6 +84,12 @@ export interface Product {
         | 'Blanca'
       )
     | null;
+  altura?: string | null;
+  Ancho?: string | null;
+  laterales?: string | null;
+  cierreprincipal?: string | null;
+  stock?: boolean | null;
+  interior?: string | null;
   product_files?: (string | null) | ProductFile;
   approvedForSale?: ('pending' | 'approved' | 'denied' | 'sold-out') | null;
   priceId?: string | null;
